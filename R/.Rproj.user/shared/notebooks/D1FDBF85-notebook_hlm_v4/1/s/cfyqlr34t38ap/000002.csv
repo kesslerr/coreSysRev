@@ -1,0 +1,8 @@
+"0","```r
+layoutMat <- rbind(c(1))
+grid.arrange(pHist_b_faces,
+             layout_matrix = layoutMat)
+dev.copy(png,'D:/coreSysRev/plots/Density_B-faces.png')
+dev.off()
+
+```"

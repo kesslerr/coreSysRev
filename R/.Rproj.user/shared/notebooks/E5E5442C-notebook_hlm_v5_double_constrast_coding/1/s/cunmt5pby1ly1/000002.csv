@@ -1,0 +1,43 @@
+"0","```r
+bigDF %>% split(.$Study) %>% map(summary)
+```"
+"1","$`0`
+    Subject      Parameter       Study   Hormone     Connection
+ 1      :  6   Min.   :-5.2717   0:138   0:138   FFA > OFA:23  
+ 2      :  6   1st Qu.:-0.8816   1:  0   1:  0   FFA > STS:23  
+ 3      :  6   Median : 0.0000   2:  0           OFA > FFA:23  
+ 4      :  6   Mean   :-0.1226   3:  0           OFA > STS:23  
+ 5      :  6   3rd Qu.: 0.7074                   STS > FFA:23  
+ 6      :  6   Max.   : 5.1436                   STS > OFA:23  
+ (Other):102                                                   
+
+$`1`
+    Subject      Parameter        Study   Hormone     Connection
+ 24     :  6   Min.   :-3.35339   0:  0   0:162   FFA > OFA:27  
+ 25     :  6   1st Qu.:-0.69064   1:162   1:  0   FFA > STS:27  
+ 26     :  6   Median : 0.01202   2:  0           OFA > FFA:27  
+ 27     :  6   Mean   : 0.04586   3:  0           OFA > STS:27  
+ 28     :  6   3rd Qu.: 0.73695                   STS > FFA:27  
+ 29     :  6   Max.   : 3.13102                   STS > OFA:27  
+ (Other):126                                                    
+
+$`2`
+    Subject      Parameter       Study   Hormone     Connection
+ 51     : 12   Min.   :-4.3405   0:  0   0: 96   FFA > OFA:33  
+ 52     : 12   1st Qu.:-0.6574   1:  0   1:102   FFA > STS:33  
+ 53     : 12   Median : 0.0000   2:198           OFA > FFA:33  
+ 54     : 12   Mean   :-0.1085   3:  0           OFA > STS:33  
+ 56     : 12   3rd Qu.: 0.6114                   STS > FFA:33  
+ 57     : 12   Max.   : 2.6175                   STS > OFA:33  
+ (Other):126                                                   
+
+$`3`
+    Subject      Parameter       Study   Hormone     Connection 
+ 74     : 54   Min.   :-7.1668   0:  0   0:738   FFA > OFA:123  
+ 77     : 54   1st Qu.:-0.6974   1:  0   1:  0   FFA > STS:123  
+ 82     : 54   Median : 0.1508   2:  0           OFA > FFA:123  
+ 83     : 54   Mean   : 0.1050   3:738           OFA > STS:123  
+ 84     : 54   3rd Qu.: 1.0268                   STS > FFA:123  
+ 73     : 48   Max.   : 6.3303                   STS > OFA:123  
+ (Other):420                                                    
+"

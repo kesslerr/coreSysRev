@@ -1,0 +1,128 @@
+---
+# title: "Untitled"
+# author: "Jahn"
+# date: "23 März 2017"
+output:
+    pdf_document:
+        includes:
+            in_header: /Users/roman/Dropbox/hda/NLNPM/nlnpm/roman/mystyles_arbeitsblatt.sty # needed to change this
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment=NA)
+show_text <- TRUE
+```
+
+<!-- C:\Users\Admin\hda\Vorlesungen\ -->
+\fontsize{11}{16} \selectfont
+
+\head{Nichtparametrische und nichtlineare Modelle}{Sommersemester 2021}{4}
+
+
+\begin{Aufgabe}
+In der Vorlesung wurde gezeigt, dass die Score-Funktion einer Poisson-Regression wie folgt dargestellt werden kann
+\[s({\bf b}) = \nabla LL({\bf b}) = {\bf X}^T({\bf y}-{\bf \lambda})\]
+mit ${\bf X}$ Designmatrix, ${\bf y}=(y_1, \dots y_n)^T$, ${\bf \lambda}=(\exp({\bf b}^T{\bf x}_1),\dots, \exp({\bf b}^T{\bf x}_n))^T$
+
+\begin{compactenum}[a)]
+\item Berechnen Sie für den Fall $p=1$, d.h. ${\bf b}=(b_0,b_1)^T$ und ${\bf x}_i=(1,x_{i1})^T$ die beobachtete Fisher-Information $I=-H({\bf b})$. Berechnen Sie dazu den 2-dimensionalen Vektor $s({\bf b})$ aus dem Produkt der $2\times n$-Matrix ${\bf X}^T$ und dem n-dimensionalen Vektor $({\bf y}-{\bf \lambda})$. Erstellen Sie dann $H({\bf b})$ aus den partiellen Ableitungen der Komponenten von $s$.
+\item Angenommen, in Ihrem Datenbeispiel berechnet sich eine Fisher Informationsmatrix an der Stelle $\hat{{\bf b}}$, die positiv definit ist. Ist dann in $\hat{{\bf b}}$ ein Minimum oder Maximum der Likelihood-Funktion gefunden oder lässt sich diese Frage nicht beantworten?
+\end{compactenum}
+\end{Aufgabe}
+
+
+\begin{Aufgabe}
+
+Im Datensatz awards finden Sie Daten zu 200 amerikanischen Personen in der Berufsausbildung, von denen einige unterstützende finanzielle Zuwendungen (Stipendien, Preise etc. ) erhalten. Neben der Anzahl erhaltener Zuwendungen (num\_awards) sind noch der Ausbildungtyp (Variable prog) sowie die Punkte im Schulabschlusstest im Fach Mathematik (Variable math) enthalten. Die Variable prog hat dabei die drei Kategorien Vocational (vergleichbar einer Berufsschule), General (vergleichbar eines Bachelorstudiengangs) und Academic (vergleichbar eines Masterstudiengangs) .
+
+\begin{compactenum}[a)]
+\item Beschreiben Sie die Anzahl erhaltener Zuwendungen in einer geeigneten grafischen Darstellung
+\item Führen Sie eine Poisson-Regression durch, um zu beschreiben wie die Anzahl erhaltener Zuwendungen von dem Ausbildungtyp und den Punkten im Schulabschlusstest im Fach Mathematik abhängt. Nutzen Sie dazu die R-Funktion glm und schauen Sie in der Hilfe-Funktion wie ein Poisson-Modell gefittet werden kann.
+\item Wie groß ist in diesem Modell in jedem der drei Programme jeweils die geschätzte Wahrscheinlichkeit, 3 oder mehr awards zu erhalten bei einem mathematischen Score von 60?
+\item Erstellen Sie einen Plot, der nach Ausbildungstyp getrennt darstellt wie die erwartete Anzahl an Zuwendungen von dem Ergebnis des Abschlusstests Mathematik abhängt. 
+\item Prüfen Sie mit einem statistischen Test zum Niveau $\alpha=5\%$, ob der Mathematik-Schulabschlusstest einen Einfluss auf die Anzahl an awards hat. Stellen Sie auch die Testhypothesen auf. Zu welchem Ergebnis kommen Sie?
+\item Vergleichen Sie die Modellanpassung der Poisson-Regression mit der Modellanpassung eines linearen Modells anhand des AIC-Kriteriums. Für welches der beiden Modelle würden Sie sich anhand des AIC-Kriteriums entscheiden?
+\end{compactenum}
+\end{Aufgabe}
+
+# A2
+
+```{r}
+load("awards.RData")
+head(awards)
+```
+## a
+
+```{r}
+library(ggplot2)
+ggplot(awards) +
+  geom_histogram(aes(x=num_awards, fill = prog), position = "dodge")
+```
+
+## b
+
+```{r}
+model1 <- glm(num_awards ~ math + prog, 
+              data = awards,
+              family = poisson(link = "log"))
+summary(model1)
+```
+
+## c
+
+```{r}
+predicted.b <- predict.glm(model1, newdata = data.frame(prog = c("General","Academic","Vocational"), math = c(60,60,60)))
+erwartungswert <- exp(predicted.b)
+erwartungswert
+```
+
+Vertilungsfkt der Poisson Verteilung: 
+
+$$ P(X<x) = \sum_{i=0}^n f(x) $$
+Dichtefkt der Poisson Verteilung:
+
+$$ P(X=x) = \frac{\lambda^x}{x!} \cdot e^{-\lambda}$$
+
+Somit $$P(X >= 3) = 1- dpois(2, ew)$$
+
+Wir nehmen die Grenze 2, da 3 includiert sein soll ("3 oder mehr")
+
+```{r}
+1 - ppois(2, erwartungswert)
+```
+
+## d
+```{r}
+ggplot(awards) +
+  geom_point(aes(x = math, y = num_awards, color = prog)) +
+    geom_smooth(aes(x = math, y = num_awards, color = prog), method = "lm", se = FALSE)
+```
+## e
+
+Hat Methematiknote einen Einfluss?
+
+Dazu testen $$ H_0: b_1 = 0 \text{ vs. } H_1: b_1 \neq 0 $$
+
+Aus dem Summary der obigen Ausgabe der Poisson Regression können wir shcon ablesen, dass $b_1$ mit einem $p<0.05$ signifikant ist. Somit spielt die Abschlussnote eine Rolle.
+
+## f
+
+Vergleich mit einem linearen Modell
+
+```{r}
+model2 <- lm(num_awards ~ math + prog, 
+              data = awards)
+summary(model2)
+
+```
+
+Vergleich der AIC Werte
+
+```{r}
+AIC(model1)
+AIC(model2)
+```
+
+Das Poisson-Modell hat einen kleineren AIC Wert. Somit würde man dieses Modell bevorzugen.
+

@@ -1,0 +1,7 @@
+"0","```r
+summary(dfBMS1)
+summary(dfBMS2)
+summary(dfBMS3M)
+summary(dfBMS3P)
+summary(dfBMS4)
+```"

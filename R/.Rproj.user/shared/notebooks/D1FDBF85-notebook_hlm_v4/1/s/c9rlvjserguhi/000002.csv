@@ -1,0 +1,11 @@
+"0","```r
+
+
+hlmpar <- function(dataPath){
+  
+  
+}
+
+source(\"rk_contrast_coding.R\")
+??contrastCoding
+```"

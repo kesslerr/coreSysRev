@@ -1,0 +1,15 @@
+"0","```r
+library(gridExtra)
+
+layoutMat <- rbind(c(1,1,1,1,2),
+                   c(1,1,1,1,2))
+grid.arrange(pHist_a,
+               #pHist_b_faces,
+               #pHist_b_emotions,
+               #pHist_B_fame,
+               pHist_c,
+             layout_matrix = layoutMat) #title = \"C-matrix\"
+dev.copy(png,'D:/coreSysRev/plots/Density_AC.png')
+dev.off()
+
+```"

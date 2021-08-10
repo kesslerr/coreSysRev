@@ -1,0 +1,3 @@
+"0","ggplot(awards) +"
+"0","  geom_point(aes(x = math, y = num_awards, color = prog)) +"
+"0","    geom_smooth(aes(x = math, y = num_awards, color = prog), method = ""lm"", se = FALSE)"

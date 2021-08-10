@@ -1,0 +1,27 @@
+{
+    "id": "C2263FEA",
+    "path": "~/projects/coreSysRevRepo/R/notebook_pp_exp.Rmd",
+    "project_path": "notebook_pp_exp.Rmd",
+    "type": "r_markdown",
+    "hash": "1612852948",
+    "contents": "",
+    "dirty": false,
+    "created": 1628612318420.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "chunk_output_type": "inline",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "85,62",
+        "scrollLine": "58"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1628612412,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1628612412210,
+    "read_only": false,
+    "read_only_alternatives": []
+}

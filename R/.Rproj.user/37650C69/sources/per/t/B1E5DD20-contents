@@ -1,0 +1,33 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+import necessary libraries and data
+
+```{r}
+library(lme4)
+
+parameter = read.csv("/media/cth/Samsung_T3/dcm_repli/R/Table_Parameter.csv", sep = '\t')
+
+```
+
+
+
+
+```{r}
+boxplot(Parameter ~ Study, col=c("white","lightgray"),parameter)
+```
+```{r}
+parameter.model = lmer(Parameter ~ Study + (1|Subject) + (1|Hormone), data=parameter)
+
+#politeness.model = lmer(frequency ~ attitude + gender + (1|subject) + (1|scenario), data=politeness)
+summary(parameter.model)
+```
+
+
+```{r}
+coef(parameter.model)
+```
+
+

@@ -1,0 +1,13 @@
+"0","```r
+library(grid)
+blank <- grid.rect(gp=gpar(col=\"white\"))
+text1 <- ggplot() + annotate(\"text\", x = 4, y = 25, size=6, label = \"study\n1\") + theme_void()
+text2 <- ggplot() + annotate(\"text\", x = 4, y = 25, size=6, label = \"study\n2\") + theme_void()
+text3 <- ggplot() + annotate(\"text\", x = 4, y = 25, size=6, label = \"study\n3-1\") + theme_void()
+text4 <- ggplot() + annotate(\"text\", x = 4, y = 25, size=6, label = \"study\n3-2\") + theme_void()
+
+comp <- grid.arrange(text1,p11,p12,p13,
+             text2,p21,p22,p23,
+             text3,p31,p32, blank,
+             text4,p41,p42, blank, ncol = 4)
+```"

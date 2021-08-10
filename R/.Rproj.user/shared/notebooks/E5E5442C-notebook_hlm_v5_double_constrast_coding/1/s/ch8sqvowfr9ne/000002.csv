@@ -1,0 +1,35 @@
+"0","```r
+library(R.matlab)
+```"
+"1","R.matlab v3.6.2 (2018-09-26) successfully loaded. See ?R.matlab for help.
+
+Attaching package: ‘R.matlab’
+
+The following objects are masked from ‘package:base’:
+
+    getOption, isOpen
+"
+"0","```r
+dfEFP <- readMat(\"/Users/roman/projects/coreSysRev/parameters/parameters_EFP_fairhallishai.mat\")
+dfFEM <- readMat(\"/Users/roman/projects/coreSysRev/parameters/parameters_femfear_fairhallishai.mat\")
+dfCYM <- readMat(\"/Users/roman/projects/coreSysRev/parameters/parameters_cycla_AM_fairhallishai.mat\")
+dfCYP <- readMat(\"/Users/roman/projects/coreSysRev/parameters/parameters_cycla_AP_fairhallishai.mat\")
+dfWaH <- readMat(\"/Users/roman/projects/coreSysRev/parameters/parameters_WakemanHanson_fairhallishai.mat\")
+
+subNumEFP <- seq(1,23)
+subNumFEM <- seq(24,50)
+subNumCYM <- c(51, 52, 53, 54,     56, 57, 58, 59, 60, 61,     63, 64, 65, 66, 67, 68)
+subNumCYP <- c(51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65,     67, 68)
+subNumWaH <- c(69,69,69,69,69,69,69,70,70,70,70,70,70,70,71,71,71,71,71,71,72,72,72,72,72,72,72,73,73,73,73,73,73,73,73,74,74,74,74,74,74,74,74,74,75,75,75,75,75,75,75,75,76,76,76,76,76,76,77,77,77,77,77,77,77,77,77,78,78,78,78,78,78,78,78,79,79,79,79,79,79,79,79,80,80,80,80,80,81,81,81,81,81,81,81,81,82,82,82,82,82,82,82,82,82,83,83,83,83,83,83,83,83,83,84,84,84,84,84,84,84,84,84)
+
+Subject <- c(subNumEFP, subNumFEM, subNumCYM, subNumCYP, subNumWaH)
+Study <- c(rep(0,23),rep(1,27), rep(2,16+17), rep(3,123))
+Hormone <-  c(rep(0,23+27+16), rep(1,17), rep(0,123))
+
+# some overall parameters
+
+thres <- 0.05 / 6 # threshold for multiple comparisons
+nonSigValue <- 0 # the value that is inserted if a connection is non-significant
+colorRange <- c(-1.5,1.5)
+
+```"

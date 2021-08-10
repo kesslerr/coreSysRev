@@ -1,0 +1,5 @@
+"0","```r
+#library(lattice)
+#library(RColorBrewer)
+#levelplot(mean_val, aspect = 1, col.regions = brewer.pal(11, \"RdBu\"))
+```"

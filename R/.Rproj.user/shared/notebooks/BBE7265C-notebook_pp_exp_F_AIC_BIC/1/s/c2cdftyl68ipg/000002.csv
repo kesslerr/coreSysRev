@@ -1,0 +1,132 @@
+"0","```r
+summary(dfBMS1)
+```"
+"1","       pp                xp         
+ Min.   :0.02071   Min.   :0.00000  
+ 1st Qu.:0.02132   1st Qu.:0.00000  
+ Median :0.02146   Median :0.00000  
+ Mean   :0.04167   Mean   :0.04167  
+ 3rd Qu.:0.02190   3rd Qu.:0.00010  
+ Max.   :0.32643   Max.   :0.98710  
+"
+"0","```r
+summary(dfBMS2)
+```"
+"1","       pp                xp         
+ Min.   :0.01928   Min.   :0.00000  
+ 1st Qu.:0.01957   1st Qu.:0.00000  
+ Median :0.01982   Median :0.00000  
+ Mean   :0.04167   Mean   :0.04167  
+ 3rd Qu.:0.01992   3rd Qu.:0.00000  
+ Max.   :0.41679   Max.   :0.99920  
+"
+"0","```r
+summary(dfBMS3M)
+```"
+"1","       pp                xp          
+ Min.   :0.02365   Min.   :0.000200  
+ 1st Qu.:0.02447   1st Qu.:0.000600  
+ Median :0.02460   Median :0.001050  
+ Mean   :0.04167   Mean   :0.041667  
+ 3rd Qu.:0.02866   3rd Qu.:0.001625  
+ Max.   :0.23795   Max.   :0.867300  
+"
+"0","```r
+summary(dfBMS3P)
+```"
+"1","       pp                xp         
+ Min.   :0.02393   Min.   :0.00010  
+ 1st Qu.:0.02438   1st Qu.:0.00020  
+ Median :0.02460   Median :0.00030  
+ Mean   :0.04167   Mean   :0.04167  
+ 3rd Qu.:0.02990   3rd Qu.:0.00100  
+ Max.   :0.28606   Max.   :0.95300  
+"
+"0","```r
+summary(dfBMS1a)
+```"
+"1","       pp                xp         
+ Min.   :0.02095   Min.   :0.00000  
+ 1st Qu.:0.02125   1st Qu.:0.00000  
+ Median :0.02139   Median :0.00000  
+ Mean   :0.04167   Mean   :0.04167  
+ 3rd Qu.:0.02228   3rd Qu.:0.00020  
+ Max.   :0.31744   Max.   :0.98160  
+"
+"0","```r
+summary(dfBMS2a)
+```"
+"1","       pp                xp         
+ Min.   :0.01945   Min.   :0.00020  
+ 1st Qu.:0.02017   1st Qu.:0.00065  
+ Median :0.02573   Median :0.00185  
+ Mean   :0.04167   Mean   :0.04167  
+ 3rd Qu.:0.04023   3rd Qu.:0.01175  
+ Max.   :0.14680   Max.   :0.38810  
+"
+"0","```r
+summary(dfBMS3Ma)
+```"
+"1","       pp                xp         
+ Min.   :0.02409   Min.   :0.00280  
+ 1st Qu.:0.02533   1st Qu.:0.00475  
+ Median :0.02657   Median :0.00665  
+ Mean   :0.04167   Mean   :0.04167  
+ 3rd Qu.:0.04246   3rd Qu.:0.02162  
+ Max.   :0.11411   Max.   :0.30330  
+"
+"0","```r
+summary(dfBMS3Pa)
+```"
+"1","       pp                xp         
+ Min.   :0.02459   Min.   :0.00650  
+ 1st Qu.:0.02548   1st Qu.:0.00780  
+ Median :0.03453   Median :0.02015  
+ Mean   :0.04167   Mean   :0.04167  
+ 3rd Qu.:0.05437   3rd Qu.:0.05987  
+ Max.   :0.09822   Max.   :0.24380  
+"
+"0","```r
+summary(dfBMS1b)
+```"
+"1","       pp                xp          
+ Min.   :0.02079   Min.   :0.000600  
+ 1st Qu.:0.02127   1st Qu.:0.001275  
+ Median :0.02223   Median :0.001550  
+ Mean   :0.04167   Mean   :0.041667  
+ 3rd Qu.:0.04351   3rd Qu.:0.008150  
+ Max.   :0.14029   Max.   :0.405100  
+"
+"0","```r
+summary(dfBMS2b)
+```"
+"1","       pp                xp         
+ Min.   :0.01957   Min.   :0.00080  
+ 1st Qu.:0.02117   1st Qu.:0.00190  
+ Median :0.03234   Median :0.00985  
+ Mean   :0.04167   Mean   :0.04167  
+ 3rd Qu.:0.05281   3rd Qu.:0.03628  
+ Max.   :0.11627   Max.   :0.35170  
+"
+"0","```r
+summary(dfBMS3Mb)
+```"
+"1","       pp                xp         
+ Min.   :0.02428   Min.   :0.00450  
+ 1st Qu.:0.02470   1st Qu.:0.00685  
+ Median :0.03015   Median :0.01435  
+ Mean   :0.04167   Mean   :0.04167  
+ 3rd Qu.:0.05686   3rd Qu.:0.06107  
+ Max.   :0.09860   Max.   :0.25740  
+"
+"0","```r
+summary(dfBMS3Pb)
+```"
+"1","       pp                xp         
+ Min.   :0.02416   Min.   :0.00510  
+ 1st Qu.:0.02585   1st Qu.:0.00710  
+ Median :0.03799   Median :0.02350  
+ Mean   :0.04167   Mean   :0.04167  
+ 3rd Qu.:0.04849   3rd Qu.:0.04205  
+ Max.   :0.11041   Max.   :0.34010  
+"

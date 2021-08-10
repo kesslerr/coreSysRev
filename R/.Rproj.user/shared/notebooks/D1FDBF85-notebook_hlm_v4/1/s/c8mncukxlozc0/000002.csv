@@ -1,0 +1,7 @@
+"0","```r
+skewness(bigDF$Parameter[bigDF$Study==0])
+skewness(bigDF$Parameter[bigDF$Study==1])
+skewness(bigDF$Parameter[bigDF$Study==2])
+skewness(bigDF$Parameter[bigDF$Study==3])
+#skewness()
+```"

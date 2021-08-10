@@ -1,0 +1,5 @@
+"0","```r
+p3 <- arrangeGrob(p1, p2, nrow = 2)
+ggsave('/Users/roman/projects/coreSysRev/plots/BMS_AICBICF.png', p3, dpi=300, width = 8, height = 12)
+
+```"

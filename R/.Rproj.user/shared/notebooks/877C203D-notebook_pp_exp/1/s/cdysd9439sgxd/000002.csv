@@ -1,0 +1,6 @@
+"0","```r
+library(gridExtra)
+grid.arrange(p1, p2, nrow = 1)
+dev.copy(png,'D:/coreSysRev/plots/BMS.png')
+dev.off()
+```"

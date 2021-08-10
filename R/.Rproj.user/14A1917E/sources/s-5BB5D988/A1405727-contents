@@ -1,0 +1,282 @@
+---
+# title: "Untitled"
+# author: "Jahn"
+# date: "23 Marz 2017"
+output:
+    pdf_document:
+        includes:
+            in_header: /Users/roman/Dropbox/hda/NLNPM/nlnpm/roman/mystyles_arbeitsblatt.sty # needed to change this
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment=NA, warning=FALSE)
+show_text <- TRUE
+```
+
+<!-- C:\Users\Admin\hda\Vorlesungen\ -->
+\fontsize{11}{16} \selectfont
+
+\head{Nichtparametrische und nichtlineare Modelle}{Sommersemester 2021}{6}
+
+\begin{Aufgabe}
+Wir passen ein lineares Regressionsmodell mit den Basisfunktionserweiterungen in X, $h_1(X)\equiv 1$, $h_2(X)= X$ und $h_3(X)=(X-1)^2 \cdot \mathbbm{1}_{(X \ge 1)}$ an. Aus einem Trainingsdatensatz erhalten wir als zugehörige Koeffizientenschätzer $\hat{b}_1 = 1, \hat{b}_2 = 1, \hat{b}_3 = -2$. Skizzieren Sie die geschätzte Kurve zwischen $X = -2$ und $X=2$.
+\end{Aufgabe}
+
+
+\begin{Aufgabe}  
+In dieser Aufgabe soll gezeigt werden, dass eine natürliche kubische Spline mit K Knotenpunkten K freie Parameter hat. Da jede kubische Spline über eine Basis der trunkierten Potenzfunktionen darstellbar ist, schreiben wir f dazu zunächst als
+\[f(x) = \sum_{j=0}^3 a_j x^j + \sum_{k=1}^K b_k (x-\xi_k)^3_+\]
+Dabei werden die ersten vier Parameter mit $a_0, a_1,a_2,a_3$ bezeichnet, damit der Index von b in der zweiten Summe bei 1 beginnen kann. Das vereinfacht die Darstellung später und hat sonst keine Bedeutung.
+\begin{compactenum}[a)]
+\item Wieviele Parameter werden bei der allgemeinen kubischen Spline mit K Knotenpunkten geschätzt?
+\item Welche zusätzlichen Eigenschaften hat eine natürliche kubische Spline im Gegensatz zu einer allgemeinen kubischen Spline? Was bedeutet dies für die zweite Ableitung von $f$ in den beiden äußeren Intervallen, d.h. welche Bedingung muss erfüllt sein?
+\item Zeigen Sie, dass diese Bedingung den vier Restriktionen an die Parameter entspricht:
+\[a_2=0,\quad a_3=0, \quad \sum_{k=1}^K b_k=0,\quad \sum_{k=1}^K b_k \xi_k=0\]
+Berechnen Sie dazu die zweiten Ableitungen in den beiden äußeren Intervallen und zeigen Sie, dass die Bedingung aus b) nur unter den o.g. Restriktionen erfüllt ist.
+\item Begründen Sie nun unter Nutzung von a), dass sich die Anzahl freier Parameter auf K reduziert.
+\end{compactenum}
+\end{Aufgabe}
+
+\newpage
+
+\begin{Aufgabe}
+Betrachten Sie den Datensatz mcycle im Paket MASS.
+\begin{compactenum}[a)]
+\item Führen Sie ein lineares Regressionmodell mit abhängiger Variable Beschleunigung (accel) und unabhängiger Variable Zeit (times) durch. Inwiefern weisen die diagnostischen Plots auf eine Verletzung der Modellannahmen hin?
+\item Führen Sie eine polynomiale Regression vom Grad 3 durch:
+\begin{compactenum}[i.]
+\item Formulieren Sie das Regressionmodell.
+\item[iii.] Führen Sie die Regressionen in R durch. Welche Becshleunigung erwarten Sie jeweils nach einer Zeit von  von 10, 20, 30 und 40 msec? Leiten Sie dies aus den Schätzern der Regressionskoeffizienten her und überprüfen Sie Ihre Berechnung mit der predict-Funktion.
+\item[iiii.] Führen Sie einen geeigneten statistischen Test durch, um zu überprüfen, ob auch ein lineares Modell ausreichen würde.
+\end{compactenum}
+\item Führen Sie eine polynomiale Regression vom Grad $p_{CV}$ durch, dabei soll ein optimales $p_{CV}$ mittels Kreuzvalidierung bestimmt werden (Funktion cv.glm aus dem Paket boot). Testen Sie bei der Kreuzvalidierung Polynome vom Grad 1-20.
+\item Vergleichen Sie die beiden Modelle (Grad 3, Grad $p_{CV}$) hinsichtlich der Anpassungsgüte. Welchen Parameter ziehen Sie zur Modellwahl heran?
+\item Schätzen Sie $\hat{f}$ auch über eine kubische Regression Spline mit einem Knoten im Median der Daten: Erstellen Sie dazu jeweils eine geeignete Designmatrix mithilfe der trunkierten Potenzfunktionen als Basiserweiterung in X und wenden Sie dann die Funktion lm an.
+\item Bestimmen Sie die optimale Anzahl an Knoten $K_{CV}$ mit Kreuzvalidierung. Dabei sollen die Knotenpunkte jeweils an den entsprechenden Quantilen liegen. Sie können hier die Basisfunktionserweiterung über B-Splines nutzen, die in der Funktion bSpline im Paket splines2 aufgestellt wird.
+\item Berechnen Sie die Anzahl an freien Parametern in allen Modellen 
+\item Schätzen Sie $\hat{f}$ auch als natürliche kubische Regression Spline mit genauso vielen freien Parametern wie die kreuzvalidierte kubische Regression Spline
+\item Erstellen Sie ein Streudiagramm der Daten, in dem auch $\hat{f}$ für jedes der geschätzten Modelle dargestellt ist. In welchen Bereichen wirkt die Anpassung jeweils schlecht / gut / zu gut? Für welches Modell würden Sie sich abschließend entscheiden?
+\end{compactenum}
+\end{Aufgabe}
+
+## A3
+
+```{r}
+library(MASS)
+library(ggplot2)
+p1 <- ggplot(mcycle) + geom_point(aes(x = times, y = accel))
+p1
+```
+## a. Lin Reg
+
+```{r}
+model.lin <- lm (accel ~ times, data = mcycle)
+predictions.a <- predict(model.lin)
+p1 + geom_abline(intercept = model.lin$coefficients["(Intercept)"], slope = model.lin$coefficients["times"], color = "red", lwd = 2)
+plot(model.lin)
+```
+
+Am qq-Plot kann man gut sehen, dass die Normalverteilungsannahme verletzt ist.
+
+Was kann man an den anderen erkennen?
+
+Wo kann man erkennen, dass Varianz unterschiedlich ist an unterschiedlichen X-Achsen Abschnitten?
+
+## b. Polynom Reg 3-th degree
+
+### i. Das Regressionsmodell
+
+$$ f(X) = b_0 + b_1 X + b_2 X^2 + b_3 X^3 + \epsilon $$
+
+### ii. Berechnung der Poly. Reg.
+
+important note from the internet (https://datascienceplus.com/fitting-polynomial-regression-r/):
+
+"However, note that q, I(q^2) and I(q^3) will be correlated and correlated variables can cause problems. The use of poly() lets you avoid this by producing orthogonal polynomials, therefore I’m going to use the first option."
+
+```{r}
+model.pol.3 <- lm(accel ~ times + I(times^2) + I(times^3) , data = mcycle)
+summary(model.pol.3)
+predictions.b <- predict(model.pol.3)
+#p1 + geom_line(aes(x = times, y = predictions.b), color = "red", lwd = 2)
+```
+
+Nach einer Zeit von 10, 20, 30, und 40, erwarte ich eine Beschleunigung (von Reg. Koeffizienten abgeleitet) von:
+
+$$ x_1 = 10; y_1 = 78.582514 - 17.113715 * 10 + 0.667766 * 10^2 - 0.007012 * 10^3 = -32.79004 $$
+$$ x_2 = 20; y_2 = 78.582514 - 17.113715 * 20 + 0.667766 * 20^2 - 0.007012 * 20^3 = -52.68139 $$
+$$ x_3 = 20; y_3 = 78.582514 - 17.113715 * 30 + 0.667766 * 30^2 - 0.007012 * 30^3 = -23.16354 $$
+$$ x_4 = 20; y_4 = 78.582514 - 17.113715 * 40 + 0.667766 * 40^2 - 0.007012 * 40^3 = 13.69151 $$
+Überprüfung mit R Funktion:
+```{r}
+predict(model.pol.3, newdata = data.frame(times = c(10,20,30,40)))
+```
+
+Note: Vorsicht, kleine Rundungsfehler schlagen in der Prädiktion schon stark ins Gewicht.
+
+### iii. Reicht auch ein lineares gegenüber einem Polynomialen (d=3) Modell?
+
+Wir haben ja hier 2 verschachtelte Modelle, also könnten wir so vorgehen, wie bei GLM gelernt,
+
+$$ T = D_{M-} - D_M = 2 \cdot ( LL_M(\hat{b}) - LL_{M-}(\hat{b} ) ) \sim \chi_q^2 $$
+berechnen, und Teststatistik mit kritischem Wert für 2 (?) Freiheitsgrade vergleichen.
+
+
+In R: Likelihood Ratio Test
+
+```{r}
+library(secr)
+LR.test(model.lin, model.pol.3)
+```
+
+Test stark signifikant (p<<0.001), also das Polynomiale Modell ist bei weitem besser als das Lineare Modell.
+
+
+## c. Cross Validation
+
+```{r}
+library(boot)
+pes <- c()
+for (d in 1:20){
+  model.cv <- glm(accel ~ poly(times,d), data = mcycle)
+  glmresult <- cv.glm(mcycle, model.cv)
+  pes <- c(pes,glmresult$delta[2])
+  
+  if (d==15){
+    predictions.c <- predict(model.cv)
+  }
+}
+d = 1:length(pes)
+ggplot() + 
+  geom_line(aes(x = d, y = pes)) +
+  geom_vline(xintercept = match(min(pes),pes), color = "red") +
+  scale_y_log10()
+```
+Ein Polynom mit d = 15 Graden scheint den kleinsten Prediction error zu produzieren.
+
+Alternativ ein Polynom mit d = 8 Graden.
+
+Man könnte dazu die beiden Modelle einmal mit einem LR Test überprüfen, um zu schauen, ob das d=8 nicht besser wäre.
+
+Frage: wäre die Information durch den LR Test redundant zu der Kreuzvalidierung?
+
+
+## d. Vergleich Poly.d.3 und Poly.d.15 bzgl der Anpassungsgüte
+
+Mit dem McFadden $R^2$ 
+
+```{r}
+model.0 <- glm(accel ~ 1, data = mcycle)
+model.3 <- glm(accel ~ poly(times,3), data = mcycle)
+model.15 <- glm(accel ~ poly(times,15), data = mcycle)
+Rsq.3 <- logLik(model.3)/logLik(model.0)
+Rsq.3[1]
+Rsq.15 <- logLik(model.15)/logLik(model.0)
+Rsq.15[1]
+```
+
+Das R^2 ist beim kleineren Modell (d=3) höher als beim größeren (mit d=15).
+
+Danach würde ich das kleinere Modell wählen. Das $R^2$ wirkt aber erstmal ziemlich groß, im Vergleich zu dem Fit, den man beim d=3 Polynom mit den Daten erkennen kann (siehe allerletzte Abbildung dieses Arbeitsblattes, Aufgabe h).
+
+Es passt nicht so gut zusammen ...
+
+## e. Cubic Regression Spline
+
+1 Knoten $K$ im Median der Daten. Ich schätze mal der Median der x-Werte (times) ist gemeint.
+
+
+```{r}
+median.times <- median(mcycle$times)
+median.times
+```
+
+```{r}
+library(splines2)
+model.bs <- lm(accel ~ bSpline(times, knots = median.times), data = mcycle)
+#summary(model.bs)
+predictions.e <- predict(model.bs)
+p1 + geom_line(aes(x = times, y = predictions.e), color = "red", lwd = 2)
+```
+Es sieht auf jeden Fall nach 2 untersch. polynomen aus auf den 2 unterschiedlichen Zeitabschnitten (unterschiedliche Krümmungen), aber wir haben jetzt BSplines statt trunkierte Potenzfunktionen verwendet ...
+
+## f. Optimale Anzahl von Knoten K
+
+```{r}
+pes <- c()
+for (k in 1:20){
+  if (k==1){knot.times <- median(mcycle$times)}
+  else{
+    quantiles <- seq(0,1,1/(k+1))
+    quantiles <- head(tail(quantiles, -1),-1)
+    knot.times <- quantile(mcycle$times, quantiles)
+  }
+  model.bs.cv <- glm(accel ~ bSpline(times,
+                                     degree=3,
+                                     knots=knot.times,
+                                     Boundary.knots=c(min(mcycle$times),max(mcycle$times))),
+                     data=mcycle)
+  if (k==8){
+    predictions.f <- predict(model.bs.cv)
+  }
+  glmresult <- cv.glm(mcycle, model.bs.cv)
+  pes <- c(pes,glmresult$delta[2])
+}
+k = 1:length(pes)
+ggplot() + 
+  geom_line(aes(x = k, y = pes)) +
+  geom_vline(xintercept = match(min(pes),pes), color = "red") +
+  scale_y_log10()
+```
+K=8 (Knotenpunkte) scheint den kleinsten Prediction error zu generieren.
+
+## g. Anzahl freier Parameter in allen Modellen
+
+Frage: sind "freie Parameter" = Freiheitsgrade? Oder gibt es da einen Unterschied?
+
+Modelle aus den Aufgabenteilen:
+
+a --> linear Regression, d=1             --> 2 freie Parameter
+b --> polynomial Regression, d=3         --> 4 freie Parameter
+c --> polynomial Regression, d=15,       --> 16 freie Parameter
+e --> cubic regression spline, k=1, d=3  --> 5 freie Parameter (d+K+1)
+f --> cubic regression spline, k=8, d=3  --> 12 freie Parameter (d+K+1)
+
+## h. natural cubic regression spline
+
+Es sollen 12 freie Parameter sein. Da insgesamt 4 freie Parameter bei "natural" cubic regression spline wegfallen, damit die Rand-Intervalle linear werden, führte ein k=8 / d=3 Modell zu nur 8 freien Parametern. Wir würden unser $k$ jetzt auf 12 erhöhen, damit wir 12 freie Parameter haben.
+
+```{r}
+library(splines)
+quantiles <- seq(0,1,1/(12+1))
+quantiles <- head(tail(quantiles, -1),-1)
+knot.times <- quantile(mcycle$times, quantiles)
+model.ns <- glm(accel ~ ns(times,
+                     knots=knot.times),
+                     data=mcycle)
+predictions.h <- predict(model.ns)
+```
+
+## i. Vergleich der Modelle
+
+```{r}
+p1 + 
+  # a: linear model
+  geom_abline(intercept = model.lin$coefficients["(Intercept)"], slope = model.lin$coefficients["times"], color = "red", lwd = 1) +
+  # b: poly reg (d=3)
+  geom_line(aes(x = times, y = predictions.b), color = "green", lwd = 1) +
+  # c: poly reg (d=15)
+  geom_line(aes(x = times, y = predictions.c), color = "blue", lwd = 1) +
+  # e: cubic reg spline (k=1, d=3)
+  geom_line(aes(x = times, y = predictions.e), color = "yellow", lwd = 1) +
+  # f: cubic reg spline (k=8, d=3)
+  geom_line(aes(x = times, y = predictions.f), color = "black", lwd = 1) +
+  # h: nat. cubic reg (k=12, d=3)
+  geom_line(aes(x = times, y = predictions.h), color = "purple", lwd = 1) 
+```
+Die "Purple"farbene Kurve (natural regression spline aus Aufgabe h) sieht erstens nach einem guten Fit aus, und zweitens auch schön "smooth" aus. Für dieses Modell würde ich mich anhand der Kurven entscheiden.
+
+Die "Schwarze" Kurve (Regression Spline aus Aufgabe f) sieht auch gut aus, man sieht jedoch an den Enden (rechts v.a.), dass sie Gefahr läuft, doch etwas zu stark anzusteigen.
+
+Die "Blaue" Kurve (Polynom Grad 15) sieht klar overfitted aus. Alle anderen Kurven haben einen sehr schlechten Fit.

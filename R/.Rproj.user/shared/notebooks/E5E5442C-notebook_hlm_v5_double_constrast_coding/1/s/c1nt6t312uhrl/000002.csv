@@ -1,0 +1,30 @@
+"0","```r
+myTheme$legend.position = \"right\" # add this to myTheme, to have a color-legend in this plot
+#myTheme <- theme(
+#    panel.grid.major = element_blank(), 
+#    panel.grid.minor = element_blank(),
+#    panel.background = element_rect(fill = \"transparent\",colour = NA),
+#    plot.background = element_rect(fill = \"transparent\",colour = NA),
+#    axis.text.x = element_text(color=\"black\", # x tick labels
+#                           size=10, angle=0),
+#    axis.text.y = element_text(color=\"black\", # y tick labels
+#                           size=10, angle=0),
+#    panel.border = element_blank(),
+#    legend.position = \"right\"
+#    )
+pHLM_c <- qplot(x=Source , y=Target , data=subset(dfResults, Type == \"intercept\"), fill=as.numeric(Value), geom=\"tile\") +
+  geom_text(data=subset(dfResults, Type == \"intercept_sig\"), aes(label = Value)) +
+  scale_fill_gradient2(low = \"blue\", mid = \"white\", high = \"red\", midpoint=0, limits=c(-1.5,1.5)) +
+  scale_x_discrete(limits=c(\"faces\")) +
+  scale_y_discrete(limits=c(\"OFA\")) +
+  myTheme +
+  coord_equal() +
+  labs(title = \"C-matrix\", x = \"input\", y = \"target region\",
+       fill = \"parameter estimate\")
+  facet_grid()
+  
+  
+pHLM_c
+dev.copy(png,'/Users/roman/projects/coreSysRev/plots/HLM_C.png')
+dev.off()
+```"

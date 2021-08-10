@@ -1,0 +1,22 @@
+"0","```r
+pHLM_b_emotions  <- qplot(x=Source , y=Target , data=subset(dfResults, Type == \"intercept\"), fill=as.numeric(Value), geom=\"tile\") +
+  geom_text(data=subset(dfResults, Type == \"intercept_sig\"), aes(label = Value, size = 35)) +
+  scale_fill_gradient2(low = \"blue\", mid = \"white\", high = \"red\", midpoint=0, limits=colorRange) +
+  scale_x_discrete(limits=c(\"OFA\",\"FFA\",\"STS\")) +
+  scale_y_discrete(limits=c(\"OFA\",\"FFA\",\"STS\")) +
+  myTheme +
+  labs(title = \"B-matrix\n(emotions)\", x = \"source region\", y = \"target region\") + #tag = \"B\"
+  coord_equal() +
+  facet_grid()
+pHLM_b_emotions
+dev.copy(png,'/Users/roman/projects/coreSysRev/plots/HLM_BEmotions.png')
+```"
+"1","quartz_off_screen 
+                3 
+"
+"0","```r
+dev.off()
+```"
+"1","quartz_off_screen 
+                2 
+"

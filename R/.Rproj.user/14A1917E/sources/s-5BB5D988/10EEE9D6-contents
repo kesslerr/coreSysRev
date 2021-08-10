@@ -1,0 +1,169 @@
+<<<<<<< HEAD
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+require(devtools)
+current.code <- as.package("D:/rkPack/hlm")
+load_all(current.code)
+?contrastCoding
+```
+
+## load the DCM parameters
+
+```{r}
+library(R.matlab)
+dfEFP <- readMat("D:/FaceCoreSystemMeta/parameters/parameters_EFP_fairhallishai.mat")
+dfFEM <- readMat("D:/FaceCoreSystemMeta/parameters/parameters_femfear_fairhallishai.mat")
+dfCYM <- readMat("D:/FaceCoreSystemMeta/parameters/parameters_cycla_AM_fairhallishai.mat")
+dfCYP <- readMat("D:/FaceCoreSystemMeta/parameters/parameters_cycla_AP_fairhallishai.mat")
+dfWHO <- readMat("D:/FaceCoreSystemMeta/parameters/parameters_WakemanHanson_fairhallishai.mat")
+```
+
+## allocate indexes to subjects, and name their group/study affiliation and hormone state (c.f. study #3)
+
+```{r}
+subNumEFP <- seq(1,23)
+subNumFEM <- seq(24,50)
+subNumCYM <- c(51, 52, 53, 54,     56, 57, 58, 59, 60, 61,     63, 64, 65, 66, 67, 68)
+subNumCYP <- c(51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65,     67, 68)
+
+Subject <- c(subNumEFP, subNumFEM, subNumCYM, subNumCYP, subNumEFP, subNumFEM, subNumEFP, subNumFEM, subNumCYM, subNumCYP) # no emotions in CYM and CYP
+Study <- c(rep(0,23),rep(1,27), rep(2,16+17), rep(0,23),rep(1,27), rep(0,23),rep(1,27), rep(2,16+17))
+Hormone <-  c(rep(0,23+27+16), rep(1,17), rep(0,23+27+16), rep(0,23+27+16), rep(1,17))
+matrixName <- c(rep("B-faces",length(Subject)),
+                rep("B-emotions",length(subNumEFP)+length(subNumFEM)),
+                rep("A-matrix",length(Subject)))
+```
+
+## allocate all parameters into rows
+
+```{r}
+for ( target in 1:3 ){      # target region
+  for ( source in 1:3 ){    # source region
+    if (source == target){
+      next # skip this iteration if it is a self connection
+    } else {
+      
+      # load parameters in df
+      ## B matrix faces
+      Parameter <-      c(dfEFP$mEpsBFaces[target,source,], # DCM parameters, B faces
+                          dfFEM$mEpsBFaces[target,source,],
+                          dfCYM$mEpsBFaces[target,source,],
+                          dfCYP$mEpsBFaces[target,source,],
+                          dfEFP$mEpsBEmotions[target,source,], # DCM parameters, B emotion
+                          dfFEM$mEpsBEmotions[target,source,],
+                          dfEFP$mEpsA[target,source,], # DCM parameters, A matrix
+                          dfFEM$mEpsA[target,source,],
+                          dfCYM$mEpsA[target,source,],
+                          dfCYP$mEpsA[target,source,])
+
+      
+      
+      
+      df <- data.frame(Subject, Parameter, Study, Hormone, matrixName)
+      df$Subject <- as.factor(df$Subject)
+      df$Study   <- as.factor(df$Study)
+      df$Hormone <- as.factor(df$Hormone)
+
+      
+```
+
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+=======
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+require(devtools)
+current.code <- as.package("D:/rkPack/hlm")
+load_all(current.code)
+?contrastCoding
+```
+
+## load the DCM parameters
+
+```{r}
+library(R.matlab)
+dfEFP <- readMat("D:/FaceCoreSystemMeta/parameters/parameters_EFP_fairhallishai.mat")
+dfFEM <- readMat("D:/FaceCoreSystemMeta/parameters/parameters_femfear_fairhallishai.mat")
+dfCYM <- readMat("D:/FaceCoreSystemMeta/parameters/parameters_cycla_AM_fairhallishai.mat")
+dfCYP <- readMat("D:/FaceCoreSystemMeta/parameters/parameters_cycla_AP_fairhallishai.mat")
+dfWHO <- readMat("D:/FaceCoreSystemMeta/parameters/parameters_WakemanHanson_fairhallishai.mat")
+```
+
+## allocate indexes to subjects, and name their group/study affiliation and hormone state (c.f. study #3)
+
+```{r}
+subNumEFP <- seq(1,23)
+subNumFEM <- seq(24,50)
+subNumCYM <- c(51, 52, 53, 54,     56, 57, 58, 59, 60, 61,     63, 64, 65, 66, 67, 68)
+subNumCYP <- c(51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65,     67, 68)
+
+Subject <- c(subNumEFP, subNumFEM, subNumCYM, subNumCYP, subNumEFP, subNumFEM, subNumEFP, subNumFEM, subNumCYM, subNumCYP) # no emotions in CYM and CYP
+Study <- c(rep(0,23),rep(1,27), rep(2,16+17), rep(0,23),rep(1,27), rep(0,23),rep(1,27), rep(2,16+17))
+Hormone <-  c(rep(0,23+27+16), rep(1,17), rep(0,23+27+16), rep(0,23+27+16), rep(1,17))
+matrixName <- c(rep("B-faces",length(Subject)),
+                rep("B-emotions",length(subNumEFP)+length(subNumFEM)),
+                rep("A-matrix",length(Subject)))
+```
+
+## allocate all parameters into rows
+
+```{r}
+for ( target in 1:3 ){      # target region
+  for ( source in 1:3 ){    # source region
+    if (source == target){
+      next # skip this iteration if it is a self connection
+    } else {
+      
+      # load parameters in df
+      ## B matrix faces
+      Parameter <-      c(dfEFP$mEpsBFaces[target,source,], # DCM parameters, B faces
+                          dfFEM$mEpsBFaces[target,source,],
+                          dfCYM$mEpsBFaces[target,source,],
+                          dfCYP$mEpsBFaces[target,source,],
+                          dfEFP$mEpsBEmotions[target,source,], # DCM parameters, B emotion
+                          dfFEM$mEpsBEmotions[target,source,],
+                          dfEFP$mEpsA[target,source,], # DCM parameters, A matrix
+                          dfFEM$mEpsA[target,source,],
+                          dfCYM$mEpsA[target,source,],
+                          dfCYP$mEpsA[target,source,])
+
+      
+      
+      
+      df <- data.frame(Subject, Parameter, Study, Hormone, matrixName)
+      df$Subject <- as.factor(df$Subject)
+      df$Study   <- as.factor(df$Study)
+      df$Hormone <- as.factor(df$Hormone)
+
+      
+```
+
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+>>>>>>> 33f21336924e6e6338c0697171a51cc77c946441

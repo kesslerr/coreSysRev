@@ -1,0 +1,59 @@
+"0","```r
+# table for results
+facesIntercept <- matrix(NA, 3, 3)
+facesPVal      <- matrix(NA, 3, 3)
+dfResults <- data.frame(Source=numeric(0), Target=numeric(0), Matrix=character(0), Type=character(0), Value=numeric(0), stringsAsFactors=FALSE)
+bigDF <- data.frame(matrix(ncol=5,nrow=0, dimnames=list(NULL, c(\"Subject\", \"Parameter\", \"Study\", \"Hormone\", \"Connection\"))))
+
+
+for ( target in 1:3 ){      # target region
+  for ( source in 1:3 ){    # source region
+    if (source == target){
+      next # skip this iteration if it is a self connection
+    } else {
+      
+      # load parameters in df
+      Parameter <-      c(dfEFP$mEpsA[target,source,], # DCM parameters
+                          dfFEM$mEpsA[target,source,],
+                          dfCYM$mEpsA[target,source,],
+                          dfCYP$mEpsA[target,source,],
+                          dfWaH$mEpsA[target,source,])
+      Subject <- c(subNumEFP, subNumFEM, subNumCYM, subNumCYP, subNumWaH)
+      Study <- c(rep(0,23),rep(1,27), rep(2,16+17), rep(3,123))
+      Hormone <-  c(rep(0,23+27+16), rep(1,17), rep(0,123))
+      dfFaces <- data.frame(Subject, Parameter, Study, Hormone)
+      dfFaces$Subject <- as.factor(dfFaces$Subject)
+      dfFaces$Study   <- as.factor(dfFaces$Study)
+      dfFaces$Hormone <- as.factor(dfFaces$Hormone)
+      
+      # create contrasts
+      dfFaces <- contrastCoding(df = dfFaces, colName = \"Study\", numLevels = 4, interceptCorrect = TRUE)
+      
+      # estimate model
+      m1 <- lme(Parameter ~ 1 + contrast_AvB + contrast_ABvC + contrast_ABCvD + Hormone , random = ~1|Subject, data=dfFaces)
+
+      # extract results
+      intercept = m1$coefficients$fixed[1]
+      p = summary(m1)$tTable[,\"p-value\"][1]
+      facesIntercept[target,source] <- intercept
+      facesPVal[target,source]      <- p
+      dfResults[nrow(dfResults) + 1,] = list(source,target, \"faces\", \"intercept\", intercept )
+      dfResults[nrow(dfResults) + 1,] = list(source,target, \"faces\", \"p\", p )
+      if (p <= thres){
+        dfResults[nrow(dfResults) + 1,] = list(source,target, \"faces\", \"intercept_sig\",paste(round(intercept,2),\"*\") )
+      } else {
+        dfResults[nrow(dfResults) + 1,] = list(source,target, \"faces\", \"intercept_sig\", paste(round(intercept,2),\"\") )
+      }
+      # create a name for the connection
+      conName <- paste(regionNames[source],\">\",regionNames[target])
+      dfFaces$Connection <- conName 
+      bigDF <- rbind(bigDF,
+                     subset(dfFaces, select = c(\"Subject\",\"Parameter\",\"Study\",\"Hormone\", \"Connection\")))
+    }
+  }
+} 
+print(\"Intercept =\")
+facesIntercept
+print(\"p =\")
+facesPVal
+```"

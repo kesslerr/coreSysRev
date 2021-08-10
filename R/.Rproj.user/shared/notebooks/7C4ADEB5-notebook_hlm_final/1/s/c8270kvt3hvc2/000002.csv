@@ -1,0 +1,8 @@
+"0","```r
+library(R.matlab)
+dfEFP <- readMat(\"D:/FaceCoreSystemMeta/parameters/parameters_EFP_fairhallishai.mat\")
+dfFEM <- readMat(\"D:/FaceCoreSystemMeta/parameters/parameters_femfear_fairhallishai.mat\")
+dfCYM <- readMat(\"D:/FaceCoreSystemMeta/parameters/parameters_cycla_AM_fairhallishai.mat\")
+dfCYP <- readMat(\"D:/FaceCoreSystemMeta/parameters/parameters_cycla_AP_fairhallishai.mat\")
+dfWHO <- readMat(\"D:/FaceCoreSystemMeta/parameters/parameters_WakemanHanson_fairhallishai.mat\")
+```"

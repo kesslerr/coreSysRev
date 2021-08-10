@@ -1,0 +1,4 @@
+"0","```r
+#dev.copy(png,'D:/coreSysRev/plots/BMSposterior.png')
+#dev.off()
+```"

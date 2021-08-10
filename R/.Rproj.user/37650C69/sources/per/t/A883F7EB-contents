@@ -1,0 +1,63 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+import necessary libraries and data
+
+```{r}
+library(lme4)
+
+politeness=read.csv("http://www.bodowinter.com/tutorial/politeness_data.csv")
+```
+
+```{r}
+boxplot(frequency ~ attitude*gender, col=c("white","lightgray"),politeness)
+```
+
+The next command creates a model that used the fixed effect “attitude” (polite vs. informal) to predict voice pitch, controlling for by-subject and by-item variability. 
+
+```{r}
+politeness.model  =  lmer(frequency  ~  attitude  + (1|subject) + (1|scenario), data=politeness)
+summary(politeness.model)
+```
+
+Note  that  the lmer() function  (just  like  the lm() function  in  tutorial  1)  took whatever comes first in the alphabet to be the referenc
+e level. “inf” comes before “pol”,  so  the  slope  represents  the  change  from  “inf”  to  “pol”.  If  the  reference 
+category would be “pol” rather than “inf”, the only thing that would change would be  that  the  sign  of  the  coefficient 19.695 would  be  positive. Standard  errors, significance etc. would remain the same.
+
+
+Let’s add gender as an additional fixed effect:
+Note  that  we  added “gender” as  a  fixed  effect  because  the  relationship between  sex  and  pitch  is  systematic  and  predictable (i.e.,
+we  expect  females  to have  higher  pitch).  This  is  different  from  the  random  effects  subject  and  item, where  the  relationship  between  these  and pitch  is  much  more  unpredictable  and “random”. We’ll talk more about the distinction between fixed and random effects later.
+
+```{r}
+politeness.model = lmer(frequency ~ attitude + gender + (1|subject) + (1|scenario), data=politeness)
+summary(politeness.model)
+```
+
+Statistical Significances
+
+specify the NULL model
+
+REML = FALSE if we compare models using likelihood ratio test
+
+```{r}
+politeness.null = lmer(frequency ~ gender + (1|subject) + (1|scenario), data=politeness, REML=FALSE)
+```
+
+then the FULL model
+
+```{r}
+politeness.model = lmer(frequency ~ attitude  + gender   + (1|subject)   +   (1|scenario), data=politeness,REML=FALSE)
+```
+Now  you  have  two  models  to  compare  with  each  other–one  with  the  effect  in question, one without the effect in question. We perform the likelihood ratio test using the anova()function
+
+```{r}
+anova(politeness.null,politeness.model)
+```
+```{r}
+coef(politeness.model)
+
+```
+

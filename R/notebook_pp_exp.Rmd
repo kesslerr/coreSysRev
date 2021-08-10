@@ -1,0 +1,101 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Display the BMS results (posterior probabilities and exceedance probabilities)
+
+without study D, and study C separated into the two experimental manipulations
+
+load the data
+
+```{r}
+library(ggplot2)
+
+dfBMS1 <- read.csv("/Users/roman/projects/coreSysRev/bms/BMS_study_A.mat.csv", header = FALSE)
+names(dfBMS1) <- c("pp", "xp")
+dfBMS2 <- read.csv("/Users/roman/projects/coreSysRev/bms/BMS_study_B.mat.csv", header = FALSE)
+names(dfBMS2) <- c("pp", "xp")
+dfBMS3M <- read.csv("/Users/roman/projects/coreSysRev/bms/BMS_study_C_M.mat.csv", header = FALSE)
+names(dfBMS3M) <- c("pp", "xp")
+dfBMS3P <- read.csv("/Users/roman/projects/coreSysRev/bms/BMS_study_C_P.mat.csv", header = FALSE)
+names(dfBMS3P) <- c("pp", "xp")
+#dfBMS4 <- read.csv("/Users/roman/projects/coreSysRev/bms/BMS_study_D.mat.csv", header = FALSE)
+#names(dfBMS4) <- c("pp", "xp")
+
+# sort according to pp and xp
+df <- rbind(dfBMS1, dfBMS2, dfBMS3M, dfBMS3P) #dfBMS4
+model <- rep(seq(24),4) # 5
+study <- c(rep("A",24),rep("B",24),rep("C1",24),rep("C2",24)) #,rep("D",24)
+df <- cbind(df, model, study)
+```
+
+
+Plot posterior probabilities
+
+```{r}
+study.labs <- c("study A","study B","study C1","study C2") #,"study D"
+names(study.labs) <- c("A", "B", "C1","C2") #,"D"
+
+p1 <- ggplot(data = df) +
+  geom_bar(stat = "identity", aes(x = model, y = pp)) + #, fill = study
+  labs(x = "model", y = "posterior model probability") +
+  theme(legend.position = c(0.2,0.7)) + 
+  facet_grid(study ~ .,
+             labeller = labeller(study = study.labs)) +
+  
+  scale_x_continuous(breaks = seq(from = 2, to = 24, by = 2))
+p1
+#dev.copy(png,'/Users/roman/projects/coreSysRev/plots/BMSposterior.png')
+#dev.off()
+```
+
+get the values for model 24 for PP for paper:
+```{r}
+df$pp[df$model==24]
+```
+
+
+Plot exceedance probabilities
+
+```{r}
+p2 <- ggplot(data = df) +
+  geom_bar(stat = "identity", aes(x = model, y = xp)) +
+  labs(x = "model", y = "model exceedance probability") +
+  theme(legend.position = "none") +
+  facet_grid(study ~ .,
+             labeller = labeller(study = study.labs)) +
+  scale_x_continuous(breaks = seq(from = 2, to = 24, by = 2))
+                   
+p2
+dev.copy(png,'/Users/roman/projects/coreSysRev/plots/BMSexceedance.png')
+dev.off()
+```
+
+get the values for model 24 for XP for paper:
+```{r}
+df$xp[df$model==24]
+```
+
+
+Plot both in 1 graphics
+
+```{r}
+library(gridExtra)
+grid.arrange(p1, p2, nrow = 1)
+dev.copy(png,'/Users/roman/projects/coreSysRev/plots/BMS.png')
+dev.off()
+```
+
+
+# Display some values for description in paper
+
+```{r}
+summary(dfBMS1)
+summary(dfBMS2)
+summary(dfBMS3M)
+summary(dfBMS3P)
+summary(dfBMS4)
+```
+
+

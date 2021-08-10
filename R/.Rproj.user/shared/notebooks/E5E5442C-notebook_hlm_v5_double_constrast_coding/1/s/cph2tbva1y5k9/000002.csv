@@ -1,0 +1,23 @@
+"0","```r
+bigDF %>% split(.$Study) %>% map(summary)
+```"
+"1","$`0`
+    Subject      Parameter         Study   Hormone     Connection
+ 1      :  6   Min.   :-3.308594   0:138   0:138   FFA > OFA:23  
+ 2      :  6   1st Qu.:-0.200611   1:  0           FFA > STS:23  
+ 3      :  6   Median : 0.014922                   OFA > FFA:23  
+ 4      :  6   Mean   : 0.005758                   OFA > STS:23  
+ 5      :  6   3rd Qu.: 0.202470                   STS > FFA:23  
+ 6      :  6   Max.   : 2.664966                   STS > OFA:23  
+ (Other):102                                                     
+
+$`1`
+    Subject      Parameter          Study   Hormone     Connection
+ 24     :  6   Min.   :-1.4929342   0:  0   0:162   FFA > OFA:27  
+ 25     :  6   1st Qu.:-0.1608063   1:162           FFA > STS:27  
+ 26     :  6   Median : 0.0001847                   OFA > FFA:27  
+ 27     :  6   Mean   : 0.0550677                   OFA > STS:27  
+ 28     :  6   3rd Qu.: 0.2721221                   STS > FFA:27  
+ 29     :  6   Max.   : 1.6319839                   STS > OFA:27  
+ (Other):126                                                      
+"

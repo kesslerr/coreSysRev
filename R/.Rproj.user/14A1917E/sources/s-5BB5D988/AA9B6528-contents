@@ -1,0 +1,106 @@
+---
+# title: "Untitled"
+# author: "Jahn"
+# date: "23 März 2017"
+output:
+    pdf_document:
+        includes:
+            in_header: /Users/roman/Dropbox/hda/NLNPM/nlnpm/roman/mystyles_arbeitsblatt.sty # needed to change this
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment=NA)
+show_text <- TRUE
+```
+
+<!-- C:\Users\Admin\hda\Vorlesungen\ -->
+\fontsize{11}{16} \selectfont
+
+\head{Nichtparametrische und nichtlineare Modelle}{Sommersemester 2021}{5}
+
+
+\begin{Aufgabe}
+Auf moodle finden Sie den Datensatz DebTrivedi, der die Daten von 4406 über 65-jährigen amerikanischen Mitgliedern einer Krankenversicherung über einen festen Beobachtungszeitraum enthält. Unter den Variablen finden Sie unter Anderem Angaben über die Selbsteinschätzung des Gesundheitszustands (Variable health), die Anzahl chronischer Erkrankungen (Variable numchron), die Anzahl der Arztbesuche im Beobachtungszeitraum (Variable ofp), die Information ob ein Krankenhausaufenthalt im Beobachtungszeitraum notwendig war (Variable hosp) sowie Angaben darüber, ob der Patient verheiratet ist (Variable married) und ob er staatliche Unterstützung bei Gesundheitskosten erhält (Variable medicaid).   
+
+\begin{compactenum}[a)]
+\item Führen Sie eine Poisson-Regression durch, um zu beschreiben wie die Anzahl der Arztbesuche von dem Gesundheitszustand, der Anzahl chronischer Erkrankungen, dem Auftreten von Krankenhausaufenthalten, dem Beziehungsstatus und der Unterstützung bei Gesundheitskosten abhängt. 
+\item Wieviele Arztbesuche kann ein verheirateter Patient ohne staatliche Unterstützung bei Gesundheitskosten erwarten, der seine Gesundheit selbst als durchschnittlich einschätzt, 2 chronische Erkrankungen diagnostiziert bekommen hat und im Beobachtungszeitraum nicht ins Krankenhaus musste? (Leiten Sie das Ergebnis aus den Koeffizientenschätzern ab.)
+\item Führen Sie einen statistischen Test durch, um zu prüfen, ob die Selbsteinschätzung einen statistisch signifikanten Einfluss auf die Arztbesuche hat. Formulieren Sie auch die Testhypothesen.
+\item Überprüfen Sie die Modellanpassung mit Residuenplots. Wie würden Sie die Modellanpassung einschätzen?
+\item In einem sogenannten Quasi-Poisson-Modell wird ein zusätzlicher Modellparameter $\phi$ (Dispersionsparameter) definiert und es werden folgende Annahmen getroffen:
+\[E(Y|X=x) = x^Tb \quad \quad Var(Y|X=x) = \phi E(Y|X=x)\]
+Dann wird $b$ mit ML-Methode aus einem Poisson-Regressionsmodell geschätzt und danach $\phi$ geschätzt. Führen Sie eine Quasi-Poisson-Regression mit Schätzung des Dispersionsparameters durch, indem Sie in der glm-Funktion family=quasipoisson setzen. Wie groß ist der geschätzte Dispersionsparameter? Bestätigt dieser Wert Ihre Interpretation der Residuenplots? 
+\end{compactenum}
+\end{Aufgabe}
+
+# A1
+
+```{r}
+load("DebTrivedi.RData")
+head(DebTrivedi)
+```
+## a
+
+```{r}
+model1 <- glm(ofp ~ health + numchron + hosp + married + medicaid, 
+              data = DebTrivedi,
+              family = poisson(link = "log"))
+summary(model1)
+```
+
+Alle Covariaten sind (sehr) signifikant, mit Außnahme von "married" und "medicaid".
+
+## b
+P+P
+
+## c
+p+p
+
+## d. Residuenplots
+
+```{r}
+res1 <- residuals.glm(model1, type = "pearson")
+res1 <- data.frame(residual = exp(res1),
+                   ofp = DebTrivedi$ofp)
+
+library(ggplot2)
+ggplot(res1) +
+  geom_point(aes(x=ofp, y=residual)) +
+  geom_hline(yintercept = 0, color = "red")
+```
+In dieser Darstellung (habe ich überhaupt richtig konvertiert??) sieht es so aus, als sei für sehr große OFP Werte der Fit nicht mehr so gut. Wäre irgendwie verständlich. Aber der Plot sieht komisch aus.
+
+Wenn ich nicht "Pearson" Residuen nehme, sieht es ganz ähnlich aus.
+
+
+## e. Quasi-Poisson
+
+```{r}
+model2 <- glm(ofp ~ health + numchron + hosp + married + medicaid, 
+              data = DebTrivedi,
+              family = quasipoisson(link = "log"))
+summary(model2)
+```
+
+Dispersionsparameter korrigiert dafür, wenn Erwartungswert und Varianz unterschiedlich sind im Poisson Modell (eigentlich sollte ja beides Lambda sein).
+
+Dispersionsparameter ist nun 7 (statt 1 wie im Poisson Modell oben).
+
+Doch was hat das mit dem Residuenplot von oben zu tun? wie sollte der oben aussehen, damit wir die 7 hier sinnvoll interpretieren können?
+
+
+\begin{Aufgabe}
+Zeigen Sie, dass auch das logistische Regressionsmodell ein verallgemeinertes lineares Modell ist. Im log. Regressionsmodell wird für eine binäre Zielgröße $Y$ der folgende Zusammenhang mit einem p-dim. Zufallsvektor angenommen:
+\[P(Y=1 | X=x) = \frac{\exp(x^Tb)}{1+\exp(x^Tb)} \]
+d.h. 
+\[(Y|X=x) \sim B(1, \frac{\exp(x^Tb)}{1+\exp(x^Tb)})\]
+
+\begin{compactenum}[a)]
+\item Definieren Sie die Link- und die Responsefunktion für dieses Modell
+\item Stellen Sie die Likelihoodfunktion L(b) auf
+\item Stellen Sie die Score-Funktion auf (Hinweis: Das Vorgehen ist sehr ähnlich zu dem der Poisson-Regression)
+\item Warum benötigen Sie numerische iterative Verfahren, um die Extremstelle der Likelihood-Funktion zu finden?
+\end{compactenum}
+\end{Aufgabe}
+

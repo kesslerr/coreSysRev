@@ -1,0 +1,111 @@
+"0","```r
+library(lme4)
+```"
+"1","Loading required package: Matrix
+"
+"0","```r
+library(nlme)
+```"
+"1","
+Attaching package: ‘nlme’
+
+The following object is masked from ‘package:lme4’:
+
+    lmList
+"
+"0","```r
+library(tidyr)
+```"
+"1","
+Attaching package: ‘tidyr’
+
+The following objects are masked from ‘package:Matrix’:
+
+    expand, pack, unpack
+"
+"0","```r
+library(ggplot2)
+library(GGally)
+```"
+"1","Registered S3 method overwritten by 'GGally':
+  method from   
+  +.gg   ggplot2
+"
+"0","```r
+library(psych)
+```"
+"1","
+Attaching package: ‘psych’
+
+The following objects are masked from ‘package:ggplot2’:
+
+    %+%, alpha
+"
+"0","```r
+library(corrplot)
+```"
+"1","corrplot 0.84 loaded
+"
+"0","```r
+library(MASS)
+library(gpairs)
+library(car)
+```"
+"1","Loading required package: carData
+Registered S3 method overwritten by 'data.table':
+  method           from
+  print.data.table     
+Registered S3 methods overwritten by 'car':
+  method                          from
+  influence.merMod                lme4
+  cooks.distance.influence.merMod lme4
+  dfbeta.influence.merMod         lme4
+  dfbetas.influence.merMod        lme4
+
+Attaching package: ‘car’
+
+The following object is masked from ‘package:psych’:
+
+    logit
+"
+"0","```r
+library(rmeta)
+library(dplyr)
+```"
+"1","
+Attaching package: ‘dplyr’
+
+The following object is masked from ‘package:car’:
+
+    recode
+
+The following object is masked from ‘package:MASS’:
+
+    select
+
+The following object is masked from ‘package:nlme’:
+
+    collapse
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+"
+"0","```r
+library(purrr)
+```"
+"1","
+Attaching package: ‘purrr’
+
+The following object is masked from ‘package:car’:
+
+    some
+"
+"0","```r
+library(moments) # to calculate skewness 
+
+```"

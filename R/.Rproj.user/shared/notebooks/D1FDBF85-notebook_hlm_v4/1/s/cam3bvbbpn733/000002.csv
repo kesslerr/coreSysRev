@@ -1,0 +1,16 @@
+"0","```r
+pHLM_a <- qplot(x=Source , y=Target , data=subset(dfResults, Type == \"intercept\"), fill=as.numeric(Value), geom=\"tile\") +
+  geom_text(data=subset(dfResults, Type == \"intercept_sig\"), aes(label = Value, size = 35)) +
+  scale_fill_gradient2(low = \"blue\", mid = \"white\", high = \"red\", midpoint=0, limits=colorRange) +
+  scale_x_discrete(limits=c(\"OFA\",\"FFA\",\"STS\")) +
+  scale_y_discrete(limits=c(\"OFA\",\"FFA\",\"STS\")) +
+  myTheme +
+  labs(title = \"A-matrix\n(context-independent)\", x = \"source region\", y = \"target region\") + #tag = \"B\"
+  coord_equal() +
+  facet_grid()
+
+
+pHLM_a
+dev.copy(png,'D:/coreSysRev/plots/HLM_A.png')
+dev.off()
+```"

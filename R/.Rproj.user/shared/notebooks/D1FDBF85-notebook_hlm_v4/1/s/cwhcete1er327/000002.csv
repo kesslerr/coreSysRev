@@ -1,0 +1,20 @@
+"0","```r
+library(gridExtra)
+                      
+layoutMat <- rbind(c(1,1,2,2),
+                   c(1,1,2,2),
+                   c(3,3,4,4),
+                   c(3,3,4,4),
+                   c(NA,5,5,NA),
+                   c(NA,5,5,NA))
+
+tiff('D:/coreSysRev/plots/HLM_ABBC.png',width = 8, height = 12, units = \"in\", res = 1000)  
+grid.arrange(pHLM_a,
+             pHLM_b_faces,
+             pHLM_b_emotions,
+             pHLM_B_fame, 
+             pHLM_c,
+             layout_matrix = layoutMat)
+#dev.copy(png,'D:/coreSysRev/plots/HLM_ABBC.png')
+dev.off()
+```"

@@ -1,0 +1,47 @@
+<<<<<<< HEAD
+---
+title: "subject soziodem notebook"
+output: html_notebook
+---
+
+This is to visualize and analyze the subjects characteristica of the coreSysRev project.
+
+
+```{r}
+dfsoz <- readxl::read_xlsx('D:/FaceCoreSystemMeta/soziodem/soziodem.xlsx')
+
+dfsoz$study <- as.factor(dfsoz$study)
+dfsoz$age <- as.numeric(dfsoz$age)
+dfsoz$sex <- as.factor(dfsoz$sex)
+summary(dfsoz)
+```
+
+```{r}
+library(purrr)
+dfsoz %>% split(.$study) %>% map(summary)
+```
+
+=======
+---
+title: "subject soziodem notebook"
+output: html_notebook
+---
+
+This is to visualize and analyze the subjects characteristica of the coreSysRev project.
+
+
+```{r}
+dfsoz <- readxl::read_xlsx('D:/FaceCoreSystemMeta/soziodem/soziodem.xlsx')
+
+dfsoz$study <- as.factor(dfsoz$study)
+dfsoz$age <- as.numeric(dfsoz$age)
+dfsoz$sex <- as.factor(dfsoz$sex)
+summary(dfsoz)
+```
+
+```{r}
+library(purrr)
+dfsoz %>% split(.$study) %>% map(summary)
+```
+
+>>>>>>> 33f21336924e6e6338c0697171a51cc77c946441

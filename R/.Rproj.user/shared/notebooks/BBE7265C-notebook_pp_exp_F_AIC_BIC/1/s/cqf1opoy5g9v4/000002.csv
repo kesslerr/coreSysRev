@@ -1,0 +1,39 @@
+"0","```r
+library(ggplot2)
+
+dfBMS1 <- read.csv(\"/Users/roman/projects/coreSysRev/bms/AICBIC/A_F/BMS.mat.csv\", header = FALSE)
+names(dfBMS1) <- c(\"pp\", \"xp\")
+dfBMS2 <- read.csv(\"/Users/roman/projects/coreSysRev/bms/AICBIC/B_F/BMS.mat.csv\", header = FALSE)
+names(dfBMS2) <- c(\"pp\", \"xp\")
+dfBMS3M <- read.csv(\"/Users/roman/projects/coreSysRev/bms/AICBIC/C_M_F/BMS.mat.csv\", header = FALSE)
+names(dfBMS3M) <- c(\"pp\", \"xp\")
+dfBMS3P <- read.csv(\"/Users/roman/projects/coreSysRev/bms/AICBIC/C_P_F/BMS.mat.csv\", header = FALSE)
+names(dfBMS3P) <- c(\"pp\", \"xp\")
+
+dfBMS1a <- read.csv(\"/Users/roman/projects/coreSysRev/bms/AICBIC/A_AIC/BMS.mat.csv\", header = FALSE)
+names(dfBMS1a) <- c(\"pp\", \"xp\")
+dfBMS2a <- read.csv(\"/Users/roman/projects/coreSysRev/bms/AICBIC/B_AIC/BMS.mat.csv\", header = FALSE)
+names(dfBMS2a) <- c(\"pp\", \"xp\")
+dfBMS3Ma <- read.csv(\"/Users/roman/projects/coreSysRev/bms/AICBIC/C_M_AIC/BMS.mat.csv\", header = FALSE)
+names(dfBMS3Ma) <- c(\"pp\", \"xp\")
+dfBMS3Pa <- read.csv(\"/Users/roman/projects/coreSysRev/bms/AICBIC/C_P_AIC/BMS.mat.csv\", header = FALSE)
+names(dfBMS3Pa) <- c(\"pp\", \"xp\")
+
+dfBMS1b <- read.csv(\"/Users/roman/projects/coreSysRev/bms/AICBIC/A_BIC/BMS.mat.csv\", header = FALSE)
+names(dfBMS1b) <- c(\"pp\", \"xp\")
+dfBMS2b <- read.csv(\"/Users/roman/projects/coreSysRev/bms/AICBIC/B_BIC/BMS.mat.csv\", header = FALSE)
+names(dfBMS2b) <- c(\"pp\", \"xp\")
+dfBMS3Mb <- read.csv(\"/Users/roman/projects/coreSysRev/bms/AICBIC/C_M_BIC/BMS.mat.csv\", header = FALSE)
+names(dfBMS3Mb) <- c(\"pp\", \"xp\")
+dfBMS3Pb <- read.csv(\"/Users/roman/projects/coreSysRev/bms/AICBIC/C_P_BIC/BMS.mat.csv\", header = FALSE)
+names(dfBMS3Pb) <- c(\"pp\", \"xp\")
+
+
+# sort according to pp and xp
+df <- rbind(dfBMS1, dfBMS2, dfBMS3M, dfBMS3P, dfBMS1a, dfBMS2a, dfBMS3Ma, dfBMS3Pa, dfBMS1b, dfBMS2b, dfBMS3Mb, dfBMS3Pb) #dfBMS4
+model <- rep(seq(24),4*3) # 5
+study <- c(rep(\"A\",24),rep(\"B\",24),rep(\"C1\",24),rep(\"C2\",24),rep(\"A\",24),rep(\"B\",24),rep(\"C1\",24),rep(\"C2\",24),rep(\"A\",24),rep(\"B\",24),rep(\"C1\",24),rep(\"C2\",24))
+lme <- c(rep(\"F\", 24*4),rep(\"AIC\", 24*4),rep(\"BIC\", 24*4))
+df <- cbind(df, model, study, lme)
+df
+```"

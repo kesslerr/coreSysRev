@@ -1,0 +1,2 @@
+"0","model.lin <- lm (accel ~ times, data = mcycle)"
+"0","p1 + geom_abline(intercept = model.lin$coefficients[""(Intercept)""], slope = model.lin$coefficients[""times""], color = ""red"", lwd = 2)"

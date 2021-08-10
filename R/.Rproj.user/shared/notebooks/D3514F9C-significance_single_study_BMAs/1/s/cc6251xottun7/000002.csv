@@ -1,0 +1,53 @@
+"0","```r
+tt <- apply(dfCYP$mEpsA, c(1,2), t.test) # t.test into 3rd dimension
+
+mean_val <- matrix(nrow = 3, ncol=3)
+p_val <- matrix(nrow = 3, ncol=3)
+dfLong <- data.frame(Source=numeric(0), Target=numeric(0), Type=character(0), Value=numeric(0), stringsAsFactors=FALSE)
+
+
+for (y in 1 : dim(tt)[1]){
+  for (x in 1: dim(tt)[2]){
+    if (y==x){next} # ommit self connections
+    mean_val[y,x] <- tt[[y,x]]$estimate
+    p_val[y,x] <- tt[[y,x]]$p.value
+    
+    # put in long DF for plotting
+    dfLong[nrow(dfLong) + 1,] = list(x,y, \"intercept\", mean_val[y,x] )
+    dfLong[nrow(dfLong) + 1,] = list(x,y, \"p\", p_val[y,x] )
+    if (p_val[y,x] <= thres){
+      dfLong[nrow(dfLong) + 1,] = list(x,y, \"intercept_sig\",paste(round(mean_val[y,x],2),\"*\") )
+    } else {
+      dfLong[nrow(dfLong) + 1,] = list(x,y, \"intercept_sig\", paste(round(mean_val[y,x],2),\"\") )
+    }
+  }
+}
+
+print(mean_val)
+```"
+"1","           [,1]        [,2]        [,3]
+[1,]         NA -0.17145563 -0.12402734
+[2,] 0.06924087          NA -0.02502175
+[3,] 0.02117680  0.06756255          NA
+"
+"0","```r
+print(p_val)
+```"
+"1","          [,1]      [,2]      [,3]
+[1,]        NA 0.1243843 0.2981735
+[2,] 0.1684115        NA 0.6201101
+[3,] 0.7368557 0.2989411        NA
+"
+"0","```r
+p41 <- qplot(x=Source , y=Target , data=subset(dfLong, Type == \"intercept\"), fill=as.numeric(Value), geom=\"tile\") +
+  geom_text(data=subset(dfLong, Type == \"intercept_sig\"), aes(label = Value, size = 35)) +
+  scale_fill_gradient2(low = \"blue\", mid = \"white\", high = \"red\", midpoint=0, limits=colorRange) +
+  scale_x_discrete(limits=c(\"OFA\",\"FFA\",\"STS\")) +
+  scale_y_discrete(limits=c(\"OFA\",\"FFA\",\"STS\")) +
+  myTheme +
+  labs( x = \"source region\", y = \"target region\") + #,  tag = \"B\"
+  coord_equal() +
+  facet_grid()
+p41
+
+```"

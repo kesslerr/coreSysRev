@@ -1,0 +1,173 @@
+<<<<<<< HEAD
+#' Contrast coding for HLM
+#'
+#' We use contrast coding to get a useful, nice-to-interpret intercept in our model. 
+#' We want the intercept to be equivalent to the "mean of all subjects from all studies".
+#' With usual coding of the factor "Study", the overall intercept of the model would be equvalent to the mean of study #1.
+#' does a keyword search over the headers to find those column headers that
+#' match a particular keyword, e.g., mean, median, etc.
+#' Therefore, we create artificial variables according to: https://pagepiccinini.com/2016/03/18/contrast-coding-with-three-level-variables/
+#' For two variables, contrast coding is straightforward.
+#' For three variables, keep in mind, that interpretation of some other model parameters may change (c.f. website above).
+#' 
+#' @param df a data frame object.
+#' @param colName The name of the column (char) that shall be contrast coded.
+#' @param numLevels Number of levels for contast coding (int). Only 2, 3 or 4 possible. Defaults to 2.
+#' @param interceptCorrect 
+#'
+#' @return A data frame object containing the dummy coded variable.
+#' @export
+contrastCoding <- function(df, colName, numLevels = 2, interceptCorrect = TRUE){
+  require(dplyr)
+  
+  # change the colname for convenience
+  names(df)[names(df) == colName] <- "V1"
+  
+  # first of all, because groups may be of unequal sizes, calculate the appropriate contrast weights
+  #na    <- length(df$V1[df$V1==0])
+  #nb    <- length(df$V1[df$V1==1])
+  #nab   <- na + nb
+  #nc    <- length(df$V1[df$V1==2])
+  #nabcc <- na + nb + 2 * nc
+  
+  w1A <- -0.5  #nb / nab # weight of contrast 1, group A
+  w1B <-  0.5  #na / nab
+  w2A <- -0.25 #nb / nabcc
+  w2B <- -0.25 #na / nabcc
+  w2C <-  0.5  #2 * nc / nabcc
+  
+  
+  # in any case, calculate A vs B
+  df = df %>%
+    mutate(contrast_AvB = ifelse(V1 == 0, w1A, ifelse(V1 == 1, w1B, 0)))
+  #print("blabla123")
+  # if only 2 levels, calculate A vs C
+  if ( numLevels == 2 ){
+    df = df %>% 
+      mutate(contrast_AvC = ifelse(V1 == 0, -0.5, ifelse(V1 == 1, 0.5, 0))) # ??? wrong ?
+  
+    # if 3 levels
+  } else if (numLevels == 3){
+    # if the intercept is supposed to be meaningful
+    if ( interceptCorrect == TRUE ){
+      df = df %>%
+        mutate(contrast_ABvC = ifelse(V1 == 2, w2C, ifelse(V1 == 0, w2A, w2B)))
+    } else{
+      # if the intercept is not supposed to be meaningful, but the differences between studies
+      df = df %>%
+        mutate(contrast_ABvC = ifelse(V1 == 2, 0.5, -0.5)) # do not use this version already
+    }
+  
+    # if 4 levels
+  } else if (numLevels == 4){
+    
+    nd      <- length(df$V1[df$V1==3])
+    nabcddd <- na + nb + nc + 3*nd
+    w3A <- -0.5/3 #nb / nabcddd
+    w3B <- -0.5/3 #na / nabcddd
+    w3C <- -0.5/3 #
+    w3D <-  0.5   #3 * nd / nabcddd
+    
+    # if the intercept is supposed to be meaningful
+    if ( interceptCorrect == TRUE ){
+      df = df %>%
+        mutate(contrast_ABCvD = ifelse(V1 == 3, w3D, ifelse(V1 == 2, w3C, ifelse(V1 == 1, w3B, w2A))))
+    } else{
+      # if the intercept is not supposed to be meaningful, but the differences between studies
+      df = df %>%
+        mutate(contrast_ABvC = ifelse(V1 == 2, 0.5, -0.5)) # not yet finished this version !!
+    }
+  }
+  
+  # change the colname back to its original
+  names(df)[names(df) == "V1"] <- colName
+  
+  return(df)
+}
+=======
+#' Contrast coding for HLM
+#'
+#' We use contrast coding to get a useful, nice-to-interpret intercept in our model. 
+#' We want the intercept to be equivalent to the "mean of all subjects from all studies".
+#' With usual coding of the factor "Study", the overall intercept of the model would be equvalent to the mean of study #1.
+#' does a keyword search over the headers to find those column headers that
+#' match a particular keyword, e.g., mean, median, etc.
+#' Therefore, we create artificial variables according to: https://pagepiccinini.com/2016/03/18/contrast-coding-with-three-level-variables/
+#' For two variables, contrast coding is straightforward.
+#' For three variables, keep in mind, that interpretation of some other model parameters may change (c.f. website above).
+#' 
+#' @param df a data frame object.
+#' @param colName The name of the column (char) that shall be contrast coded.
+#' @param numLevels Number of levels for contast coding (int). Only 2, 3 or 4 possible. Defaults to 2.
+#' @param interceptCorrect 
+#'
+#' @return A data frame object containing the dummy coded variable.
+#' @export
+contrastCoding <- function(df, colName, numLevels = 2, interceptCorrect = TRUE){
+  require(dplyr)
+  
+  # change the colname for convenience
+  names(df)[names(df) == colName] <- "V1"
+  
+  # first of all, because groups may be of unequal sizes, calculate the appropriate contrast weights
+  #na    <- length(df$V1[df$V1==0])
+  #nb    <- length(df$V1[df$V1==1])
+  #nab   <- na + nb
+  #nc    <- length(df$V1[df$V1==2])
+  #nabcc <- na + nb + 2 * nc
+  
+  w1A <- -0.5  #nb / nab # weight of contrast 1, group A
+  w1B <-  0.5  #na / nab
+  w2A <- -0.25 #nb / nabcc
+  w2B <- -0.25 #na / nabcc
+  w2C <-  0.5  #2 * nc / nabcc
+  
+  
+  # in any case, calculate A vs B
+  df = df %>%
+    mutate(contrast_AvB = ifelse(V1 == 0, w1A, ifelse(V1 == 1, w1B, 0)))
+  #print("blabla123")
+  # if only 2 levels, calculate A vs C
+  if ( numLevels == 2 ){
+    df = df %>% 
+      mutate(contrast_AvC = ifelse(V1 == 0, -0.5, ifelse(V1 == 1, 0.5, 0))) # ??? wrong ?
+  
+    # if 3 levels
+  } else if (numLevels == 3){
+    # if the intercept is supposed to be meaningful
+    if ( interceptCorrect == TRUE ){
+      df = df %>%
+        mutate(contrast_ABvC = ifelse(V1 == 2, w2C, ifelse(V1 == 0, w2A, w2B)))
+    } else{
+      # if the intercept is not supposed to be meaningful, but the differences between studies
+      df = df %>%
+        mutate(contrast_ABvC = ifelse(V1 == 2, 0.5, -0.5)) # do not use this version already
+    }
+  
+    # if 4 levels
+  } else if (numLevels == 4){
+    
+    nd      <- length(df$V1[df$V1==3])
+    nabcddd <- na + nb + nc + 3*nd
+    w3A <- -0.5/3 #nb / nabcddd
+    w3B <- -0.5/3 #na / nabcddd
+    w3C <- -0.5/3 #
+    w3D <-  0.5   #3 * nd / nabcddd
+    
+    # if the intercept is supposed to be meaningful
+    if ( interceptCorrect == TRUE ){
+      df = df %>%
+        mutate(contrast_ABCvD = ifelse(V1 == 3, w3D, ifelse(V1 == 2, w3C, ifelse(V1 == 1, w3B, w2A))))
+    } else{
+      # if the intercept is not supposed to be meaningful, but the differences between studies
+      df = df %>%
+        mutate(contrast_ABvC = ifelse(V1 == 2, 0.5, -0.5)) # not yet finished this version !!
+    }
+  }
+  
+  # change the colname back to its original
+  names(df)[names(df) == "V1"] <- colName
+  
+  return(df)
+}
+>>>>>>> 33f21336924e6e6338c0697171a51cc77c946441

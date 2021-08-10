@@ -1,0 +1,20 @@
+"0","```r
+library(ggplot2)
+
+dfBMS1 <- read.csv(\"/Users/roman/projects/coreSysRev/bms/BMS_study_A.mat.csv\", header = FALSE)
+names(dfBMS1) <- c(\"pp\", \"xp\")
+dfBMS2 <- read.csv(\"/Users/roman/projects/coreSysRev/bms/BMS_study_B.mat.csv\", header = FALSE)
+names(dfBMS2) <- c(\"pp\", \"xp\")
+dfBMS3M <- read.csv(\"/Users/roman/projects/coreSysRev/bms/BMS_study_C_M.mat.csv\", header = FALSE)
+names(dfBMS3M) <- c(\"pp\", \"xp\")
+dfBMS3P <- read.csv(\"/Users/roman/projects/coreSysRev/bms/BMS_study_C_P.mat.csv\", header = FALSE)
+names(dfBMS3P) <- c(\"pp\", \"xp\")
+#dfBMS4 <- read.csv(\"D:/coreSysRev/bms/BMS_study_D.mat.csv\", header = FALSE)
+#names(dfBMS4) <- c(\"pp\", \"xp\")
+
+# sort according to pp and xp
+df <- rbind(dfBMS1, dfBMS2, dfBMS3M, dfBMS3P) #dfBMS4
+model <- rep(seq(24),4) # 5
+study <- c(rep(\"A\",24),rep(\"B\",24),rep(\"C1\",24),rep(\"C2\",24)) #,rep(\"D\",24)
+df <- cbind(df, model, study)
+```"

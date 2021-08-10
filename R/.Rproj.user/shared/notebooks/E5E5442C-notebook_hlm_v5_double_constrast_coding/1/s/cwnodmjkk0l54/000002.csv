@@ -1,0 +1,11 @@
+"0","```r
+layoutMat <- rbind(c(1),
+                   c(1),
+                   c(2))
+grid.arrange(pHist_b_emotions,
+             pHist_B_fame,
+             layout_matrix = layoutMat)
+dev.copy(png,'/Users/roman/projects/coreSysRev/plots/density_B-emotions_B-fame.png')
+dev.off()
+
+```"

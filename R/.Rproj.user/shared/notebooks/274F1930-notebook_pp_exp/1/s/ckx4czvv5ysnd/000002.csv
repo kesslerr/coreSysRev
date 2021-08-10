@@ -1,0 +1,13 @@
+"0","```r
+p2 <- ggplot(data = df) +
+  geom_bar(stat = \"identity\", aes(x = model, y = xp)) +
+  labs(x = \"model\", y = \"model exceedance probability\") +
+  theme(legend.position = \"none\") +
+  facet_grid(study ~ .,
+             labeller = labeller(study = study.labs)) +
+  scale_x_continuous(breaks = seq(from = 2, to = 24, by = 2))
+                   
+p2
+dev.copy(png,'D:/coreSysRev/plots/BMSexceedance.png')
+dev.off()
+```"

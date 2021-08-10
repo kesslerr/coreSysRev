@@ -1,0 +1,29 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1518207213068.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "36AA1BED",
+    "lastKnownWriteTime" : 0,
+    "last_content_update" : 1518207213068,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "A7A2D6C8",
+        "caption" : "politeness",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=politeness&cache_key=A7A2D6C8",
+        "displayedObservations" : "84",
+        "environment" : "",
+        "object" : "politeness",
+        "preview" : "0",
+        "totalObservations" : "84",
+        "variables" : "5"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

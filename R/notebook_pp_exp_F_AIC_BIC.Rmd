@@ -1,0 +1,134 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Display the BMS results (posterior probabilities and exceedance probabilities)
+
+without study D, and study C separated into the two experimental manipulations
+
+load the data
+
+```{r}
+library(ggplot2)
+
+dfBMS1 <- read.csv("/Users/roman/projects/coreSysRev/bms/AICBIC/A_F/BMS.mat.csv", header = FALSE)
+names(dfBMS1) <- c("pp", "xp")
+dfBMS2 <- read.csv("/Users/roman/projects/coreSysRev/bms/AICBIC/B_F/BMS.mat.csv", header = FALSE)
+names(dfBMS2) <- c("pp", "xp")
+dfBMS3M <- read.csv("/Users/roman/projects/coreSysRev/bms/AICBIC/C_M_F/BMS.mat.csv", header = FALSE)
+names(dfBMS3M) <- c("pp", "xp")
+dfBMS3P <- read.csv("/Users/roman/projects/coreSysRev/bms/AICBIC/C_P_F/BMS.mat.csv", header = FALSE)
+names(dfBMS3P) <- c("pp", "xp")
+
+dfBMS1a <- read.csv("/Users/roman/projects/coreSysRev/bms/AICBIC/A_AIC/BMS.mat.csv", header = FALSE)
+names(dfBMS1a) <- c("pp", "xp")
+dfBMS2a <- read.csv("/Users/roman/projects/coreSysRev/bms/AICBIC/B_AIC/BMS.mat.csv", header = FALSE)
+names(dfBMS2a) <- c("pp", "xp")
+dfBMS3Ma <- read.csv("/Users/roman/projects/coreSysRev/bms/AICBIC/C_M_AIC/BMS.mat.csv", header = FALSE)
+names(dfBMS3Ma) <- c("pp", "xp")
+dfBMS3Pa <- read.csv("/Users/roman/projects/coreSysRev/bms/AICBIC/C_P_AIC/BMS.mat.csv", header = FALSE)
+names(dfBMS3Pa) <- c("pp", "xp")
+
+dfBMS1b <- read.csv("/Users/roman/projects/coreSysRev/bms/AICBIC/A_BIC/BMS.mat.csv", header = FALSE)
+names(dfBMS1b) <- c("pp", "xp")
+dfBMS2b <- read.csv("/Users/roman/projects/coreSysRev/bms/AICBIC/B_BIC/BMS.mat.csv", header = FALSE)
+names(dfBMS2b) <- c("pp", "xp")
+dfBMS3Mb <- read.csv("/Users/roman/projects/coreSysRev/bms/AICBIC/C_M_BIC/BMS.mat.csv", header = FALSE)
+names(dfBMS3Mb) <- c("pp", "xp")
+dfBMS3Pb <- read.csv("/Users/roman/projects/coreSysRev/bms/AICBIC/C_P_BIC/BMS.mat.csv", header = FALSE)
+names(dfBMS3Pb) <- c("pp", "xp")
+
+
+# sort according to pp and xp
+df <- rbind(dfBMS1, dfBMS2, dfBMS3M, dfBMS3P, dfBMS1a, dfBMS2a, dfBMS3Ma, dfBMS3Pa, dfBMS1b, dfBMS2b, dfBMS3Mb, dfBMS3Pb) #dfBMS4
+model <- rep(seq(24),4*3) # 5
+study <- c(rep("A",24),rep("B",24),rep("C1",24),rep("C2",24),rep("A",24),rep("B",24),rep("C1",24),rep("C2",24),rep("A",24),rep("B",24),rep("C1",24),rep("C2",24))
+lme <- c(rep("F", 24*4),rep("AIC", 24*4),rep("BIC", 24*4))
+df <- cbind(df, model, study, lme)
+df
+```
+
+
+Plot posterior probabilities
+
+```{r}
+study.labs <- c("study A","study B","study C1","study C2") #,"study D"
+names(study.labs) <- c("A", "B", "C1","C2") #,"D"
+
+p1 <- ggplot(data = df) +
+  geom_bar(stat = "identity", aes(x = model, y = pp)) + #, fill = study
+  labs(x = "model", y = "posterior model probability") +
+  theme(legend.position = c(0.2,0.7)) + 
+  facet_grid(study ~ lme,
+             labeller = labeller(study = study.labs)) +
+  
+  scale_x_continuous(breaks = seq(from = 2, to = 24, by = 2))
+p1
+ggsave('/Users/roman/projects/coreSysRev/plots/BMSposterior_AICBICF.png', dpi = 300)
+
+```
+
+
+get the values for model 24 for PP for paper:
+```{r}
+df$pp[df$model==24]
+```
+
+get the values for model 24 for PP for paper:
+```{r}
+df$pp[df$model==24]
+```
+
+
+Plot exceedance probabilities
+
+```{r}
+p2 <- ggplot(data = df) +
+  geom_bar(stat = "identity", aes(x = model, y = xp)) +
+  labs(x = "model", y = "model exceedance probability") +
+  theme(legend.position = "none") +
+  facet_grid(study ~ lme,
+             labeller = labeller(study = study.labs)) +
+  scale_x_continuous(breaks = seq(from = 2, to = 24, by = 2))
+                   
+p2
+ggsave('/Users/roman/projects/coreSysRev/plots/BMSexceedance_AICBICF.png', dpi=300)
+```
+
+get the values for model 24 for XP for paper:
+```{r}
+df$xp[df$model==24]
+```
+
+
+Plot both in 1 graphics
+
+```{r}
+library(gridExtra)
+grid.arrange(p1, p2, nrow = 2)
+p3 <- arrangeGrob(p1, p2, nrow = 2)
+ggsave('/Users/roman/projects/coreSysRev/plots/BMS_AICBICF.png', p3, dpi=300, width = 8, height = 12)
+
+```
+
+
+# Display some values for description in paper
+
+```{r}
+summary(dfBMS1)
+summary(dfBMS2)
+summary(dfBMS3M)
+summary(dfBMS3P)
+summary(dfBMS1a)
+summary(dfBMS2a)
+summary(dfBMS3Ma)
+summary(dfBMS3Pa)
+summary(dfBMS1b)
+summary(dfBMS2b)
+summary(dfBMS3Mb)
+summary(dfBMS3Pb)
+
+```
+
+

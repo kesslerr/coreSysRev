@@ -1,0 +1,17 @@
+"0","```r
+# New facet label names for dose variable
+study.labs <- c(\"study A\",\"study B\",\"study C\",\"study D\")
+names(study.labs) <- c(\"0\", \"1\", \"2\",\"3\")
+
+#bigDF$Connection <- as.factor(bigDF$Connection)
+pHist_c <- ggplot(bigDF) +
+  geom_density(aes(x=Parameter), fill = \"darkgrey\") + 
+  geom_vline(aes(xintercept=0)) + # vertical line at x = 0
+  facet_grid(Study~.,
+             labeller = labeller(Study = study.labs)) +
+  labs(x = \"parameter estimates\", title = \"C-matrix\")
+pHist_c
+dev.copy(png,'D:/coreSysRev/plots/Hist_C.png')
+dev.off()
+
+```"

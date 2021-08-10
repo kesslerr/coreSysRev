@@ -1,0 +1,24 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1518210825817.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1799817375",
+    "id" : "B1E5DD20",
+    "lastKnownWriteTime" : 1518275552,
+    "last_content_update" : 1518275554327,
+    "path" : "/media/cth/Samsung_T3/dcm_repli/R/HLM/notebook_hlm_OFA_FFA_faces.Rmd",
+    "project_path" : "notebook_hlm_OFA_FFA_faces.Rmd",
+    "properties" : {
+        "chunk_output_type" : "inline",
+        "cursorPosition" : "21,0",
+        "scrollLine" : "20",
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

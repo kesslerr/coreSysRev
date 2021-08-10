@@ -1,0 +1,53 @@
+"0","```r
+# table for results
+facesIntercept <- matrix(NA, 1, 1)
+facesPVal      <- matrix(NA, , 1)
+dfResults <- data.frame(Source=numeric(0), Target=numeric(0), Matrix=character(0), Type=character(0), Value=numeric(0), stringsAsFactors=FALSE)
+bigDF <- data.frame(matrix(ncol=5,nrow=0, dimnames=list(NULL, c(\"Subject\", \"Parameter\", \"Study\", \"Hormone\", \"Connection\"))))
+
+
+target = 1
+source = 1
+
+Parameter <-      c(dfEFP$mEpsC[target,source,], # DCM parameters
+                    dfFEM$mEpsC[target,source,],
+                    dfCYM$mEpsC[target,source,],
+                    dfCYP$mEpsC[target,source,],
+                    dfWaH$mEpsC[target,source,])
+Subject <- c(subNumEFP, subNumFEM, subNumCYM, subNumCYP, subNumWaH)
+Study <- c(rep(0,23),rep(1,27), rep(2,16+17), rep(3,123))
+Hormone <-  c(rep(0,23+27+16), rep(1,17), rep(0,123))
+
+dfFaces <- data.frame(Subject, Parameter, Study)
+dfFaces$Subject <- as.factor(dfFaces$Subject)
+dfFaces$Study   <- as.factor(dfFaces$Study)
+
+# create contrasts
+dfFaces <- contrastCoding(df = dfFaces, colName = \"Study\", numLevels = 4, interceptCorrect = TRUE)
+
+# estimate model
+m1 <- lme(Parameter ~ 1 + contrast_AvB + contrast_ABvC + contrast_ABCvD + Hormone , random = ~1|Subject, data=dfFaces)
+
+# extract results
+intercept = m1$coefficients$fixed[1]
+p = summary(m1)$tTable[,\"p-value\"][1]
+facesIntercept[target,source] <- intercept
+facesPVal[target,source]      <- p
+dfResults[nrow(dfResults) + 1,] = list(source,target, \"faces\", \"intercept\", intercept )
+dfResults[nrow(dfResults) + 1,] = list(source,target, \"faces\", \"p\", p )
+
+if (p <= thres){
+  dfResults[nrow(dfResults) + 1,] = list(source,target, \"faces\", \"intercept_sig\",paste(round(intercept,2),\"*\") )
+} else {
+  dfResults[nrow(dfResults) + 1,] = list(source,target, \"faces\", \"intercept_sig\", paste(round(intercept,2),\"\") )
+}
+
+bigDF <- dfFaces
+#rbind(bigDF,
+#               subset(dfFaces, select = c(\"Subject\",\"Parameter\",\"Study\",\"Hormone\",\"Connection\")))
+
+print(paste(\"Intercept =\", facesIntercept))
+print(paste(\"p =\", facesPVal))
+
+
+```"
